@@ -1,0 +1,1156 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>YUGYEONG HEO · AI · Full-Stack Developer</title>
+<meta name="description" content="허유경 — AI · 풀스택 개발자 포트폴리오" />
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" />
+
+<!-- Tailwind Play CDN -->
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          paper: '#F7F7F6',   // 중립 화이트 기본 배경 (핑크 제거)
+          snow:  '#FFFFFF',   // 순백 교차 섹션
+          ink:   '#0A0A0A',   // 잉크 블랙 텍스트
+          ash:   '#6B6B6B',   // 보조 회색
+          line:  '#E2DED7',   // 헤어라인
+        },
+        fontFamily: {
+          display: ['"Cormorant Garamond"', 'Pretendard', 'sans-serif'],
+          kr: ['Pretendard', 'sans-serif'],
+        },
+        fontWeight: { 300: '300', 400: '400', 500: '500', 600: '600', 700: '700', 900: '900' },
+      },
+    },
+  };
+</script>
+
+<!-- Motion: GSAP + ScrollTrigger + Lenis -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://unpkg.com/lenis@1.1.14/dist/lenis.min.js"></script>
+
+<style>
+  html, body { margin: 0; padding: 0; }
+  body { background: #F7F7F6; color: #0A0A0A; font-family: 'Pretendard', sans-serif; -webkit-font-smoothing: antialiased; }
+
+  /* Lenis 권장 스타일 (네이티브 smooth-scroll 충돌 제거) */
+  html.lenis, html.lenis body { height: auto; }
+  .lenis.lenis-smooth { scroll-behavior: auto !important; }
+  .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+  .lenis.lenis-stopped { overflow: hidden; }
+
+  /* reveal 기본 상태 */
+  .reveal { opacity: 0; transform: translateY(28px); }
+  .label { font-size: 10px; letter-spacing: 0.4em; text-transform: uppercase; color: #6B6B6B; }
+
+  /* 영상 위: 흰 글씨 / 스크롤 후: 검정 글씨 + 흰 배경 */
+  #nav .nav-link { color: #FFFFFF; transition: color .4s ease; }
+  #nav.solid { background: rgba(255,255,255,0.6); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 1px solid rgba(226,222,215,0.5); box-shadow: 0 2px 20px rgba(10,10,10,0.05); }
+  #nav.solid .nav-link { color: #0A0A0A; }
+
+  /* 마퀴 */
+  .marquee { overflow: hidden; white-space: nowrap; }
+  .marquee-track { display: inline-flex; gap: 3rem; animation: marquee 30s linear infinite; }
+  @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+  /* ---------- 커스텀 커서 ---------- */
+  @media (pointer:fine){ body.cursor-on, body.cursor-on * { cursor: none !important; } }
+  #cursor { position: fixed; top:0; left:0; z-index:95; pointer-events:none; will-change: transform;
+            width:9px; height:9px; border-radius:50%; background:#0A0A0A; border:1px solid #0A0A0A;
+            transition: width .35s cubic-bezier(.2,.7,.2,1), height .35s cubic-bezier(.2,.7,.2,1), background .35s, opacity .3s; }
+  #cursor.ring { width:48px; height:48px; background:transparent; }
+  @media (pointer:coarse){ #cursor { display:none; } }
+
+  /* ---------- WORK 시네마틱 교차 행 ---------- */
+  .work-row { cursor: pointer; }
+  .work-row .wr-frame { position:relative; overflow:hidden; background:#EFEBE4; }
+  .work-row .wr-thumb { position:absolute; inset:0; background-size:cover; background-position:center; }
+  .work-row .wr-imgwrap { position:absolute; top:-6%; left:0; width:100%; height:112%; will-change: transform; }
+  .work-row .wr-img { width:100%; height:100%; object-fit:cover; display:block;
+                      transition: transform 1.2s cubic-bezier(.2,.7,.2,1); will-change: transform; }
+  .work-row:hover .wr-img { transform: scale(1.05); }
+  /* 거대 인덱스 번호 */
+  .work-row .wr-num { font-family:'Cormorant Garamond',serif; font-weight:300; line-height:.8; color:#0A0A0A;
+                      opacity:.16; transition: opacity .5s, transform .6s cubic-bezier(.2,.7,.2,1); }
+  .work-row:hover .wr-num { opacity:.32; transform: translateX(6px); }
+  .work-row .wr-title { transition: transform .55s cubic-bezier(.2,.7,.2,1); }
+  .work-row:hover .wr-title { transform: translateX(10px); }
+  /* View Project 밑줄 드로잉 */
+  .work-row .wr-cta { position:relative; display:inline-flex; align-items:center; gap:.55rem; }
+  .work-row .wr-cta::after { content:''; position:absolute; left:0; bottom:-5px; height:1px; width:100%; background:#0A0A0A;
+                             transform:scaleX(0); transform-origin:left; transition: transform .55s cubic-bezier(.2,.7,.2,1); }
+  .work-row:hover .wr-cta::after { transform:scaleX(1); }
+  .work-row .wr-arrow { transition: transform .5s cubic-bezier(.2,.7,.2,1); }
+  .work-row:hover .wr-arrow { transform: translate(4px,-4px) rotate(45deg); }
+  /* 수상 배지 */
+  .work-row .wr-badge { position:absolute; top:16px; left:16px; z-index:3; background:#0A0A0A; color:#fff;
+                        font-family:'Cormorant Garamond',serif; font-size:11px; letter-spacing:.18em; text-transform:uppercase;
+                        padding:6px 10px; }
+
+  /* ---------- 글래스모피즘 ---------- */
+  .glass {
+    background: rgba(255,255,255,0.55);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border: 1px solid rgba(226,222,215,0.6);
+    box-shadow: 0 4px 28px rgba(10,10,10,0.06), inset 0 1px 0 rgba(255,255,255,0.7);
+  }
+  .glass-dark {
+    background: rgba(10,10,10,0.72);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border: 1px solid rgba(255,255,255,0.12);
+    box-shadow: 0 6px 32px rgba(10,10,10,0.22);
+  }
+  .glass-tag {
+    background: rgba(255,255,255,0.5);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(226,222,215,0.7);
+    transition: background .25s, border-color .25s, color .25s;
+  }
+  .glass-tag:hover {
+    background: rgba(10,10,10,0.07);
+    border-color: rgba(10,10,10,0.4);
+    color: #0A0A0A;
+  }
+
+  /* ---------- INTRO 라인 마스크 ---------- */
+  .lnwrap { display:block; overflow:hidden; padding-bottom:.06em; }
+  .ln { display:inline-block; will-change: transform; }
+
+  /* ---------- 거대 배경 타이포 ---------- */
+  .ghost { font-family:'Cormorant Garamond',serif; font-weight:600; line-height:.78; color:transparent;
+           -webkit-text-stroke:1px rgba(10,10,10,.07); pointer-events:none; user-select:none; white-space:nowrap; will-change: transform; }
+
+  /* ---------- AUTOMATION 카드 (hover는 자식 요소에만 — reveal의 GSAP inline transform과 충돌 방지) ---------- */
+  .auto-card { transition: box-shadow .6s cubic-bezier(.2,.7,.2,1), border-color .6s; }
+  .auto-card:hover { box-shadow: 0 18px 48px rgba(10,10,10,0.08); border-color: rgba(10,10,10,0.28); }
+  .auto-card .ac-img { transition: transform 1.2s cubic-bezier(.2,.7,.2,1); will-change: transform; }
+  .auto-card:hover .ac-img { transform: scale(1.05); }
+  .auto-cta { position:relative; display:inline-flex; align-items:center; gap:.5rem; }
+  .auto-cta::after { content:''; position:absolute; left:0; bottom:-4px; height:1px; width:100%; background:#0A0A0A;
+                     transform:scaleX(0); transform-origin:left; transition: transform .5s cubic-bezier(.2,.7,.2,1); }
+  .auto-cta:hover::after { transform:scaleX(1); }
+  .auto-cta .ac-arrow { display:inline-block; transition: transform .45s cubic-bezier(.2,.7,.2,1); }
+  .auto-cta:hover .ac-arrow { transform: translate(3px,-3px); }
+  /* 미니 파이프라인 다이어그램 */
+  .pipe-node { border:1px solid rgba(10,10,10,.16); background:rgba(255,255,255,.55); border-radius:2px; }
+  .pipe-arrow { color: rgba(10,10,10,.3); }
+</style>
+</head>
+<body class="font-kr">
+
+  <!-- 로드 인트로 -->
+  <div id="loader" class="fixed inset-0 z-[100] bg-snow flex items-center justify-center">
+    <span class="font-display font-700 text-2xl tracking-[0.1em] text-ink opacity-0" id="loader-mark">HEO YUGYEONG</span>
+  </div>
+
+  <!-- 커스텀 커서 -->
+  <div id="cursor"></div>
+
+  <!-- 스크롤 진행 바 -->
+  <div id="progress" class="fixed top-0 left-0 h-px bg-ink z-[60]" style="width:0%"></div>
+
+  <!-- 고정 상단 내비 -->
+  <header id="nav" class="fixed top-0 inset-x-0 z-50 transition-all duration-500">
+    <div class="flex items-center justify-between px-6 md:px-12 py-5">
+      <a href="#hero" class="nav-link font-display font-600 tracking-[0.12em] text-xl">HEO YUGYEONG</a>
+      <nav class="flex items-center gap-6 md:gap-10 text-xs tracking-[0.25em] uppercase font-display">
+        <a href="#about" class="nav-link hover:opacity-60 transition-opacity">About</a>
+        <a href="#automation" class="nav-link hover:opacity-60 transition-opacity">Automation</a>
+        <a href="#work" class="nav-link hover:opacity-60 transition-opacity">Work</a>
+        <a href="#skills-phil" class="nav-link hover:opacity-60 transition-opacity">Skill</a>
+        <a href="#contact" class="nav-link hover:opacity-60 transition-opacity">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+
+    <!-- ① HERO -->
+    <section id="hero" class="relative h-[85svh] w-full overflow-hidden bg-snow flex items-center justify-center">
+      <div id="hero-copy" class="relative w-full max-w-6xl mx-auto px-8 md:px-12 flex flex-col md:flex-row items-center justify-between gap-10 md:gap-0">
+
+        <!-- 텍스트 (왼쪽) -->
+        <div class="md:flex-1 text-center md:text-left">
+          <div class="label mb-6 tracking-[0.45em]" style="color:rgba(10,10,10,0.35)">AI · Full-Stack Developer</div>
+          <h1 class="font-display font-300 text-ink leading-[0.88] tracking-[0.05em]"
+              style="font-size:clamp(3rem,9vw,8.5rem)">
+            HEO<br /><span id="hero-scramble">YUGYEONG</span>
+          </h1>
+        </div>
+
+        <!-- 사진 (오른쪽) -->
+        <div class="flex-shrink-0 rounded-full overflow-hidden"
+             style="width:clamp(180px,32vmin,360px);height:clamp(180px,32vmin,360px)">
+          <img src="assets/profile.jpg" alt="허유경" class="w-full h-full object-cover object-top" />
+        </div>
+      </div>
+
+      <div class="absolute bottom-8 inset-x-0 flex flex-col items-center text-ink/30 text-[10px] tracking-[0.4em] uppercase">
+        <span class="mb-2">Scroll</span>
+        <span class="block w-px h-10 bg-ink/20 animate-pulse"></span>
+      </div>
+    </section>
+
+    <!-- ② INTRO -->
+    <section id="intro" class="relative overflow-hidden bg-paper px-6 md:px-12 py-40 md:py-60">
+      <div data-ghost class="ghost absolute -right-[3vw] bottom-2 text-[32vw] md:text-[19vw] leading-none">2026</div>
+
+      <div class="relative max-w-7xl mx-auto">
+        <!-- 상단 메타 -->
+        <div class="flex justify-between items-baseline mb-16 md:mb-28">
+          <span class="label reveal">(Introduction)</span>
+          <span class="label reveal text-right">Seoul — 2026</span>
+        </div>
+
+        <!-- 오버사이즈 선언문 -->
+        <h2 class="font-display font-300 text-ink leading-[0.92] tracking-[0.01em] text-[12vw] md:text-[8.2vw]">
+          <span class="lnwrap"><span class="ln">I build</span></span>
+          <span class="lnwrap"><span class="ln"><em class="font-400 italic">intelligence</em></span></span>
+          <span class="lnwrap"><span class="ln">into the things</span></span>
+          <span class="lnwrap"><span class="ln">people <em class="font-400 italic">touch.</em></span></span>
+        </h2>
+
+        <!-- 보조 문단 (우측 정렬, 비대칭) -->
+        <div class="mt-16 md:mt-24 flex md:justify-end">
+          <div class="max-w-md reveal">
+            <div class="w-12 h-px bg-ink mb-6"></div>
+            <p class="font-kr text-base md:text-lg leading-relaxed text-ink/75">
+              새로운 기술을 탐구하는 것에 그치지 않고, 비즈니스의 성장과 운영 효율을 극대화하는 프로덕트로 구현해 냅니다. 데이터 파이프라인부터 서버리스 인프라, 사용자 화면까지 AI 서비스를 엔드투엔드(End-to-End)로 직접 구축해 세상에 내놓을 때 가장 큰 몰입감을 느낍니다.
+            </p>
+            <div class="label mt-6">Heo Yugyeong / AI · Full-Stack Developer</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ③ ABOUT -->
+    <section id="about" class="bg-paper px-6 md:px-12 py-32 md:py-48 border-t border-line">
+      <div class="max-w-6xl mx-auto grid md:grid-cols-12 gap-10 md:gap-16">
+        <!-- 프로필 사진 (HEIC→JPEG 변환) -->
+        <div class="md:col-span-4 reveal">
+          <div class="aspect-[3/4] w-full overflow-hidden bg-line/60">
+            <img data-pll src="assets/profile.jpg" alt="허유경 · AI · Full-Stack Developer" class="w-full h-[115%] object-cover" />
+          </div>
+          <div class="mt-6 font-display font-700 text-2xl text-ink">허유경</div>
+          <div class="label mt-1">Heo Yugyeong · 2001.07.17</div>
+        </div>
+
+        <div class="md:col-span-8 space-y-12">
+          <div class="reveal grid sm:grid-cols-2 gap-8">
+            <div>
+              <div class="label mb-4 border-b border-line pb-2">Education</div>
+              <p class="text-ink leading-relaxed">성신여자대학교 (2021–2026.02)<br /><span class="text-ash">주전공 AI융합학부 · 복수전공 경제학과</span></p>
+            </div>
+            <div>
+              <div class="label mb-4 border-b border-line pb-2">Activities</div>
+              <ul class="text-ink/80 space-y-1.5 text-sm leading-relaxed">
+                <li>SK AI SUMMIT 2025 · Hover AI <span class="text-ash">(2025.11)</span></li>
+                <li>SKT FLY AI Challenger 7기 <span class="text-ash">(2025)</span></li>
+                <li>아태영리더스 포럼 · 청년 홍보위원 <span class="text-ash">(2023)</span></li>
+                <li>BDAA 3기 · 데이터 분석 학회 <span class="text-ash">(2022)</span></li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="reveal">
+            <div class="label mb-4 border-b border-line pb-2">Awards</div>
+            <ul class="space-y-2.5 text-sm">
+              <li class="flex justify-between gap-4 items-baseline"><span class="text-ink font-500">★ WAN-IFRA (세계신문협회) — Gold Award · Best AI-Driven News Product, Format, or Strategy</span><span class="label shrink-0">2026.06</span></li>
+              <li class="flex justify-between gap-4 items-baseline"><span class="text-ink font-500">★ AWS Newsroom Jumpstart 2026 — 1위</span><span class="label shrink-0">2026.05</span></li>
+              <li class="flex justify-between gap-4 items-baseline"><span class="text-ink font-500">★ WAN-IFRA DMA Asia 2026 — Gold · Best AI-driven News Product (AI LINK)</span><span class="label shrink-0">2026.04</span></li>
+              <li class="flex justify-between gap-4 items-baseline"><span class="text-ink font-500">★ WAN-IFRA DMA Asia 2026 — Gold · Best Newsletter (AI PRISM)</span><span class="label shrink-0">2026.04</span></li>
+              <li class="flex justify-between gap-4 items-baseline"><span class="text-ink font-500">★ AI융합학부 IT경진대회 최우수상</span><span class="label shrink-0">2025.08</span></li>
+              <li class="flex justify-between gap-4 items-baseline"><span class="text-ink font-500">★ SKT FLY AI Challenger 7기 프로젝트 부문 최우수상</span><span class="label shrink-0">2025.08</span></li>
+            </ul>
+          </div>
+
+          <div class="reveal">
+            <div class="label mb-4 border-b border-line pb-2">Certifications &amp; Language</div>
+            <ul class="text-ink/80 flex flex-wrap gap-x-8 gap-y-1 text-sm">
+              <li>SQLD <span class="text-ash">(2025.06)</span></li>
+              <li>TOEIC 800 <span class="text-ash">(2025.10)</span></li>
+              <li>OPIc IM2 <span class="text-ash">(2025.07)</span></li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ③.5 AUTOMATION -->
+    <section id="automation" class="relative overflow-hidden bg-paper px-6 md:px-12 py-32 md:py-48 border-t border-line">
+      <div data-ghost class="ghost absolute right-0 bottom-8 text-[40vw] md:text-[24vw]">AUTO</div>
+      <div class="relative max-w-6xl mx-auto">
+        <div class="flex items-end justify-between mb-12 md:mb-20">
+          <div>
+            <span class="label reveal mb-4 block">(Automation)</span>
+            <h2 class="reveal font-display font-300 text-5xl md:text-7xl tracking-[0.04em] text-ink">Workflow<br /><span class="font-700">Automation</span></h2>
+          </div>
+          <div class="reveal text-right text-[11px] tracking-[0.15em] text-ash uppercase leading-loose">업무 자동화 · 마케팅 AI<br />2025 — 2026</div>
+        </div>
+
+        <div class="space-y-8 md:space-y-10">
+
+          <!-- 카드 01 — MAGAZINIE -->
+          <article class="auto-card reveal grid md:grid-cols-12 border border-line bg-snow overflow-hidden">
+            <div class="md:col-span-6 relative overflow-hidden bg-line/40 min-h-[220px] md:min-h-[360px]">
+              <img src="assets/magazinie.jpg" alt="MAGAZINIE — 카드뉴스 자동 제작" onerror="this.style.display='none'"
+                   class="ac-img absolute inset-0 w-full h-full object-cover object-center" />
+            </div>
+            <div class="md:col-span-6 p-8 md:p-12 flex flex-col justify-between gap-8">
+              <div>
+                <div class="flex items-baseline justify-between mb-5">
+                  <span style="font-family:'Cormorant Garamond',serif;font-weight:300;line-height:.8" class="text-5xl md:text-6xl text-ink/20">01</span>
+                  <span class="label">Card News · Marketing</span>
+                </div>
+                <h3 class="font-display font-700 text-3xl md:text-4xl text-ink tracking-[0.02em]">MAGAZINIE</h3>
+                <div class="label mt-2 mb-5">카드뉴스 자동 제작 서비스</div>
+                <p class="text-ink/80 leading-relaxed text-sm md:text-base">
+                  기사를 고르면 AI가 카드뉴스 5컷을 자동 생성하고, 이름·로고·색을 입혀 나만의 매거진으로 완성하는
+                  <span class="text-ink font-600">패션·뷰티 특화 툴을 직접 기획·개발</span>했습니다. 릴스로 제작해 홍보도 진행했습니다.
+                </p>
+                <div class="flex flex-wrap gap-2 mt-6">
+                  <span class="glass-tag px-3 py-1.5 text-[11px] tracking-[0.05em] text-ink/70">AI 카드뉴스 5컷</span>
+                  <span class="glass-tag px-3 py-1.5 text-[11px] tracking-[0.05em] text-ink/70">브랜드 커스터마이징</span>
+                  <span class="glass-tag px-3 py-1.5 text-[11px] tracking-[0.05em] text-ink/70">네이버 뉴스 연동</span>
+                  <span class="glass-tag px-3 py-1.5 text-[11px] tracking-[0.05em] text-ink/70">릴스 홍보</span>
+                </div>
+                <!-- 릴스 홍보 성과 (@imyurina__ · 카드뉴스 릴스 DY8dqoVxMVB) -->
+                <div class="mt-7 pt-6 border-t border-line/80">
+                  <div class="flex items-baseline justify-between mb-3">
+                    <span class="label text-ash/80">릴스 홍보 성과</span>
+                    <span class="label text-ash/60">@imyurina__</span>
+                  </div>
+                  <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                    <div><div class="font-display font-700 text-2xl md:text-3xl text-ink leading-none">7.3<span class="text-lg text-ash">만</span></div><div class="label mt-2">조회수</div></div>
+                    <div><div class="font-display font-700 text-2xl md:text-3xl text-ink leading-none">5.5<span class="text-lg text-ash">만</span></div><div class="label mt-2">도달</div></div>
+                    <div><div class="font-display font-700 text-2xl md:text-3xl text-ink leading-none">2,361</div><div class="label mt-2">저장</div></div>
+                    <div><div class="font-display font-700 text-2xl md:text-3xl text-ink leading-none">1,477</div><div class="label mt-2">공유</div></div>
+                  </div>
+                  <div class="mt-4 text-xs text-ash leading-relaxed">이 릴스 하나로 <span class="text-ink font-600">팔로워 +1,366</span> · 프로필 방문 <span class="text-ink font-600">3,501</span> · 평균 조회 <span class="text-ink font-600">11초</span> 유입</div>
+                </div>
+              </div>
+              <div class="pt-6 border-t border-line flex flex-wrap items-center justify-between gap-4">
+                <span class="text-xs text-ash italic">“10초만에 카드뉴스를 만들 수 있다고?🫢”</span>
+                <div class="flex items-center gap-6">
+                  <a href="https://www.instagram.com/reel/DY8dqoVxMVB/" target="_blank" rel="noopener" class="auto-cta font-display text-sm tracking-[0.14em] uppercase text-ink">Reels <span class="ac-arrow">↗</span></a>
+                  <a href="https://magazinie.vercel.app/" target="_blank" rel="noopener" class="auto-cta font-display text-sm tracking-[0.14em] uppercase text-ink">View Live <span class="ac-arrow">↗</span></a>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- 카드 02 — WEEKLY REPORT -->
+          <article class="auto-card reveal grid md:grid-cols-12 border border-line bg-snow overflow-hidden" data-delay="0.08">
+            <div class="md:col-span-6 relative overflow-hidden bg-paper flex items-center justify-center py-12 px-8 min-h-[220px] md:min-h-[360px]">
+              <!-- 미니 파이프라인 다이어그램 -->
+              <div class="w-full max-w-[280px] flex flex-col items-center gap-3">
+                <div class="w-full flex flex-col gap-2">
+                  <div class="pipe-node text-center py-2.5 text-[11px] tracking-[0.08em] text-ink/70">Google Analytics 4</div>
+                  <div class="pipe-node text-center py-2.5 text-[11px] tracking-[0.08em] text-ink/70">Search Console</div>
+                  <div class="pipe-node text-center py-2.5 text-[11px] tracking-[0.08em] text-ink/70">AdSense API</div>
+                </div>
+                <div class="pipe-arrow text-lg leading-none">↓</div>
+                <div class="pipe-node w-full text-center py-2.5 text-[11px] tracking-[0.08em] text-ink/70">Google Sheets · 자동 집계</div>
+                <div class="pipe-arrow text-lg leading-none">↓</div>
+                <div class="pipe-node w-full text-center py-3 text-[11px] tracking-[0.12em] text-snow font-600" style="background:#0A0A0A;border-color:#0A0A0A">AI 주간 리포트</div>
+              </div>
+            </div>
+            <div class="md:col-span-6 p-8 md:p-12 flex flex-col justify-between gap-8">
+              <div>
+                <div class="flex items-baseline justify-between mb-5">
+                  <span style="font-family:'Cormorant Garamond',serif;font-weight:300;line-height:.8" class="text-5xl md:text-6xl text-ink/20">02</span>
+                  <span class="label">Data · Reporting</span>
+                </div>
+                <h3 class="font-display font-700 text-3xl md:text-4xl text-ink tracking-[0.02em]">WEEKLY REPORT</h3>
+                <div class="label mt-2 mb-5">데이터 수집 · 리포트 자동화</div>
+                <p class="text-ink/80 leading-relaxed text-sm md:text-base">
+                  en.sedaily.com 운영 데이터를 <span class="text-ink font-600">GA4 · Search Console · AdSense API</span>로 매일 자동 수집해
+                  구글 시트에 적재하고, 그 데이터를 기반으로 <span class="text-ink font-600">주간 업무 리포트를 자동 생성</span>하는 파이프라인을 구축했습니다.
+                </p>
+                <div class="flex flex-wrap gap-2 mt-6">
+                  <span class="glass-tag px-3 py-1.5 text-[11px] tracking-[0.05em] text-ink/70">GA4 · GSC · AdSense</span>
+                  <span class="glass-tag px-3 py-1.5 text-[11px] tracking-[0.05em] text-ink/70">구글시트 자동 집계</span>
+                  <span class="glass-tag px-3 py-1.5 text-[11px] tracking-[0.05em] text-ink/70">AI 주간 리포트</span>
+                  <span class="glass-tag px-3 py-1.5 text-[11px] tracking-[0.05em] text-ink/70">EC2 cron 무인 실행</span>
+                </div>
+                <div class="grid grid-cols-3 gap-4 mt-7">
+                  <div><div class="font-display font-700 text-2xl md:text-3xl text-ink leading-none">50<span class="text-ash text-lg">+</span></div><div class="label mt-2">지표 무인 추적</div></div>
+                  <div><div class="font-display font-700 text-2xl md:text-3xl text-ink leading-none">06:00</div><div class="label mt-2">매일 자동 실행</div></div>
+                  <div><div class="font-display font-700 text-2xl md:text-3xl text-ink leading-none">0</div><div class="label mt-2">반복 수작업</div></div>
+                </div>
+              </div>
+              <div class="pt-6 border-t border-line flex flex-wrap items-center justify-between gap-4">
+                <span class="label text-ash/80">Related Project</span>
+                <a href="https://en.sedaily.com" target="_blank" rel="noopener" class="auto-cta font-display text-sm tracking-[0.14em] uppercase text-ink">en.sedaily <span class="ac-arrow">↗</span></a>
+              </div>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ④ WORK -->
+    <section id="work" class="relative overflow-hidden bg-snow px-6 md:px-12 py-32 md:py-48 border-t border-line">
+      <div data-ghost class="ghost absolute left-0 bottom-8 text-[44vw] md:text-[30vw]">WORK</div>
+      <div class="relative max-w-6xl mx-auto">
+        <div class="flex items-end justify-between mb-12 md:mb-20">
+          <h2 class="reveal font-display font-300 text-5xl md:text-7xl tracking-[0.04em] text-ink">Selected<br /><span class="font-700">Work</span></h2>
+          <div class="reveal label text-right">07 Projects<br />2024 — 2026</div>
+        </div>
+        <div id="work-list" class="space-y-28 md:space-y-44"></div>
+      </div>
+    </section>
+
+    <!-- ④.5 SKILLS & PHILOSOPHY -->
+    <section id="skills-phil" class="bg-snow px-6 md:px-12 py-32 md:py-48 border-t border-line">
+      <div class="max-w-6xl mx-auto">
+        <div class="mb-12 md:mb-20">
+          <span class="label reveal mb-4 block">(Skills &amp; Philosophy)</span>
+          <h2 class="reveal font-display font-300 text-5xl md:text-7xl tracking-[0.04em] text-ink">Skills &amp;<br /><span class="font-700">Philosophy</span></h2>
+        </div>
+        <div id="sp-grid" class="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-6"></div>
+      </div>
+    </section>
+
+    <!-- 테크 키워드 마퀴 -->
+    <div class="marquee bg-snow border-y border-line py-6">
+      <div class="marquee-track font-display font-300 text-2xl md:text-4xl text-ink/30 tracking-tight">
+        <span>AI Engineering</span><span>·</span><span>Full-Stack</span><span>·</span><span>Computer Vision</span><span>·</span><span>RAG</span><span>·</span><span>AWS Serverless</span><span>·</span><span>LLM Pipelines</span><span>·</span>
+        <span>AI Engineering</span><span>·</span><span>Full-Stack</span><span>·</span><span>Computer Vision</span><span>·</span><span>RAG</span><span>·</span><span>AWS Serverless</span><span>·</span><span>LLM Pipelines</span><span>·</span>
+      </div>
+    </div>
+
+    <!-- ⑤ CONTACT -->
+    <section id="contact" class="bg-paper px-6 md:px-12 py-32 md:py-48">
+      <div class="max-w-6xl mx-auto">
+        <div class="label reveal mb-8">Contact</div>
+        <h2 class="reveal font-display font-300 text-5xl md:text-8xl tracking-[0.04em] leading-[0.95] text-ink mb-12">
+          Let's build<br /><span class="font-700">something.</span>
+        </h2>
+        <a href="mailto:dbruddl56@naver.com" class="reveal inline-block font-display font-500 text-2xl md:text-4xl text-ink border-b-2 border-ink pb-1 hover:opacity-60 transition-opacity">dbruddl56@naver.com</a>
+        <div class="reveal mt-12 flex flex-wrap gap-x-10 gap-y-4 text-sm tracking-[0.15em] uppercase font-display">
+          <a href="https://www.linkedin.com/in/yugyeongheo/ko/" target="_blank" rel="noopener" class="hover:opacity-60">LinkedIn ↗</a>
+          <a href="https://github.com/yugangee" target="_blank" rel="noopener" class="hover:opacity-60">GitHub ↗</a>
+          <a href="https://huggingface.co/yugangee" target="_blank" rel="noopener" class="hover:opacity-60">HuggingFace ↗</a>
+          <a href="https://www.instagram.com/imyurina__/reels/" target="_blank" rel="noopener" class="hover:opacity-60">Instagram ↗</a>
+          <a href="https://blog.naver.com/dbruddl56" target="_blank" rel="noopener" class="hover:opacity-60">Blog ↗</a>
+          <span class="text-ash">Tel. 010-7337-5827</span>
+        </div>
+
+        <footer class="mt-32 pt-8 border-t border-line flex flex-col md:flex-row justify-between gap-3 label">
+          <span>© 2026 Heo Yugyeong</span>
+          <span>AI · Full-Stack Developer Portfolio</span>
+        </footer>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- WORK 상세 풀스크린 패널 -->
+  <div id="panel" data-lenis-prevent class="fixed inset-0 z-[70] translate-y-full invisible overflow-y-auto" style="background:rgba(255,255,255,0.92);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);" aria-hidden="true">
+    <button id="panel-close" aria-label="닫기" class="group fixed top-5 right-5 md:top-7 md:right-12 z-[71] inline-flex items-center gap-2.5 rounded-full pl-5 pr-4 py-2.5 text-xs tracking-[0.25em] uppercase font-display transition glass-dark text-snow hover:opacity-80">
+      <span>Close</span>
+      <span class="grid place-items-center w-5 h-5 rounded-full border border-snow/50 text-[11px] leading-none transition group-hover:rotate-90">✕</span>
+    </button>
+    <div id="panel-body" class="min-h-screen px-6 md:px-12 py-24 md:py-32"></div>
+  </div>
+  <button id="panel-prev" aria-label="이전 프로젝트" class="fixed left-4 md:left-8 top-1/2 -translate-y-1/2 z-[72] w-11 h-11 rounded-full text-ink items-center justify-center transition opacity-25 hover:opacity-80 hidden" style="background:rgba(10,10,10,0.08);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid rgba(10,10,10,0.12)">←</button>
+  <button id="panel-next" aria-label="다음 프로젝트" class="fixed right-4 md:right-8 top-1/2 -translate-y-1/2 z-[72] w-11 h-11 rounded-full text-ink items-center justify-center transition opacity-25 hover:opacity-80 hidden" style="background:rgba(10,10,10,0.08);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid rgba(10,10,10,0.12)">→</button>
+
+  <!-- ============= SCRIPT ============= -->
+  <script>
+  (() => {
+    'use strict';
+    if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+    window.scrollTo(0, 0);
+    gsap.registerPlugin(ScrollTrigger);
+
+    /* ---------- 프로젝트 데이터 (포폴 MD 기준) ---------- */
+    const PROJECTS = [
+      {
+        no: '01', title: 'en.sedaily.com', kr: '글로벌 뉴스를 위한 AI 기반 AEO·SEO 최적화 플랫폼',
+        role: '풀스택 개발 · AI 번역 시스템 · AEO/SEO 최적화', year: '2025',
+        period: '2025.12 ~ (6개월)', team: '2명',
+        tags: ['Next.js', 'FastAPI', 'AWS Lambda', 'Claude'],
+        award: 'WAN-IFRA (세계신문협회) Gold Award — Best AI-Driven News Product, Format, or Strategy',
+        imgCount: 4,
+        summary: 'LLM 검색 엔진에서 직접 추천되는 구조를 구축한 글로벌 뉴스 미디어 최적화 플랫폼입니다. 키워드 기반 분류 시스템 도입 직후 활성 사용자·페이지뷰가 급증했고, 북미·동남아 등 전 세계 10개국+ 유입을 확인했습니다.',
+        metrics: [
+          { value: 6400, suffix: '만', label: '총 노출수' },
+          { value: 0.5, suffix: '%', label: '평균 CTR' },
+          { value: 6.9, suffix: '', label: '평균 게재순위' },
+        ],
+        bullets: [
+          'Next.js·FastAPI·React 기반 반응형 웹 플랫폼 풀스택 개발',
+          'AI 번역 시스템 구축 및 영어 뉴스 발행 자동화',
+          'AEO·SEO 최적화 로직으로 LLM 검색엔진 상위 노출 구조 설계',
+          'AWS Lambda 서버리스 기반 확장성 있는 글로벌 서비스 구현',
+          'GA4·AdSense·Search Console·Sheets API·DynamoDB·Notion 연동 데이터·리포팅 자동화 파이프라인 구축',
+        ],
+        achievements: [
+          '구글 서치콘솔 기준 6개월간 누적 노출 6,400만 · 평균 CTR 0.5% · 평균 게재순위 6.9위 달성',
+          'ChatGPT 유입 42.2% — Perplexity 등 AI 답변 엔진의 주요 출처로 자리매김',
+          'Stock Market 등 특정 섹션 고조회수로 키워드 분류 정확도 입증',
+          'AdSense 광고 최적화 및 수익화 기반 마련',
+        ],
+        sections: [
+          { title: '데이터·리포팅 자동화 파이프라인', items: [
+            'Google Analytics(GA4)·AdSense·Search Console·Sheets API + AWS DynamoDB를 연동해 매일·매주 핵심 지표를 자동 수집',
+            'EC2 cron으로 매일 06:00 KST 실행 — 일간 누적, 매주 금요일 주간 집계, 매월 1일 월간 집계를 단일 구글 시트(소스 오브 트루스)에 자동 적재',
+            'Notion API + AWS Bedrock(Claude) 연동으로 섹션별 AI 분석이 담긴 주간·월간 리포트를 자동 생성',
+            '사용자·트래픽·GEO(ChatGPT·Perplexity 등 AI 검색엔진 유입)·AdSense 수익·SEO·뉴스레터까지 50여 개 지표를 무인 추적',
+          ] },
+        ],
+        stack: [
+          ['개발 환경', 'Windows · AWS · VS Code'],
+          ['개발 언어', 'TypeScript · JavaScript · Python · HCL · CSS'],
+          ['서버', 'AWS EC2 · AWS Lambda'],
+          ['프레임워크', 'Next.js · FastAPI · React · Tailwind CSS'],
+          ['Infrastructure', 'AWS (EC2 · Lambda · S3 · DynamoDB)'],
+          ['IDE', 'VS Code · Claude Code · Git'],
+          ['AI & Data', 'Anthropic Claude Opus 4.5 · BigKinds API'],
+        ],
+        link: 'https://en.sedaily.com',
+        links: [
+          { label: 'View Live', url: 'https://en.sedaily.com' },
+          { label: 'AWS Tech Blog', url: 'https://aws.amazon.com/ko/blogs/tech/ai-news-service-using-amazon-bedrock-prompt-engineering-case/' },
+        ],
+      },
+      {
+        no: '02', title: 'AI KEY', kr: '한국 상장사·재계 그룹·섹터를 AI가 분석·추적하는 영문 프리미엄 서비스',
+        role: '풀스택 (프론트·백엔드·AI 파이프라인·데이터·인프라)', year: '2026',
+        period: '2026.04 ~ (진행 중)', team: '단독/협업',
+        tags: ['Next.js 14', 'AWS Lambda', 'DynamoDB', 'ElasticSearch'],
+        summary: '102개 대기업집단·85개+ 상장사의 지배구조·재무·공시 데이터를 시각화하는 글로벌 투자자용 인텔리전스 플랫폼입니다. 한국 기업·그룹·산업 섹터를 AI가 분석·추적합니다.',
+        metrics: [
+          { value: 102, suffix: '개', label: '대기업집단' },
+          { value: 85, suffix: '+', label: '상장사 분석' },
+          { value: 99.9, suffix: '%', label: '데이터 가용성' },
+          { value: 14, suffix: '개', label: '분석 페이지' },
+        ],
+        bullets: [
+          'Next.js 14 기반 회사·그룹·섹터·시장 등 14개 분석 페이지 구축',
+          '회사 분석 페이지 — 시가총액·외국인 보유율·주가·기사 통계 통합 (Yahoo Finance·Naver Securities·BigKINDS 연동)',
+          'DART 전자공시 자동 수집 파이프라인 — 공시 수집·재무제표 추출·실적 예측·그룹 랭킹 산출',
+          'KFTC(공정거래위) 동향 감시 API 및 그룹/회사 단위 히스토리 아카이브 구현',
+          '회사 팔로우·구독 선호 기반 개인화 뉴스레터 자동 발송 에이전트 개발',
+          'NextAuth 인증·세션 + AWS Lambda 서버리스 백엔드·DynamoDB 데이터 모델 설계',
+        ],
+        achievements: [
+          'DART·KFTC 등 공식 출처 데이터 연동으로 출처 투명성 확보',
+          '99.9% 데이터 가용성 확보 — 추출 시점과 공시일을 구분하는 데이터 정책 설계',
+          '102개 집단·85개+ 계열사 전체 지형을 보여주는 투자자용 인텔리전스 플랫폼 완성',
+        ],
+        stack: [
+          ['개발 언어', 'TypeScript (Next.js · React) · Python (AWS Lambda)'],
+          ['프레임워크', 'Next.js 14 (App Router · SSR)'],
+          ['데이터베이스', 'DynamoDB · ElasticSearch (전문 검색) · Redis (캐시)'],
+          ['클라우드 인프라', 'AWS Lambda · API Gateway · EC2 · CloudFront · S3'],
+          ['외부 데이터', 'DART · KFTC · BigKINDS · Yahoo Finance · Naver Securities'],
+          ['인증', 'NextAuth (Google OAuth)'],
+          ['AI', 'Anthropic Claude Opus 4.8 (AWS Bedrock)'],
+        ],
+        link: 'https://en.sedaily.com/key',
+      },
+      {
+        no: '03', title: 'AI 카드뉴스 생성', kr: '영문 기사 URL을 한글 인스타 카드뉴스로 자동 변환하는 풀스택 CMS',
+        role: '풀스택 (프론트·백엔드·AI 프롬프트·인프라) · 단독 개발', year: '2026',
+        period: '2026.05 ~ (진행 중)', team: '1명 (단독)',
+        tags: ['Next.js 15', 'Bedrock', 'satori', 'resvg'],
+        summary: '영문 기사 URL을 한글 인스타그램 카드뉴스로 자동 변환하는 풀스택 CMS입니다. 데이터 수집부터 비주얼 제작·카피라이팅까지 전 과정을 자동화했습니다.',
+        metrics: [
+          { value: 90, suffix: '%↓', label: '수작업 시간 단축' },
+          { value: 8, suffix: '종', label: '디자인 템플릿' },
+          { value: 1080, suffix: 'px', label: '카드 렌더 해상도' },
+        ],
+        bullets: [
+          'Next.js 15 기반 단일 페이지 CMS 구축 및 AWS Lambda 서버리스 배포',
+          'AWS Bedrock Claude 기반 기사 분석·번역·카드 콘텐츠 자동 생성 파이프라인 구현',
+          'satori·resvg 기반 1080×1350 인스타 카드 PNG 렌더링 엔진 직접 개발',
+          '뷰티·머니·유튜브 썸네일 등 8종 디자인 템플릿 시스템 + 편집 UI 구현',
+          'en.sedaily 데이터 연동 키워드 검색 패널 — 검색 후 클릭 한 번으로 카드 자동 생성',
+          '단일 사진 + 인스타 캡션 자동 생성 모드, Gemini TTS 보이스오버 기능 구현',
+        ],
+        achievements: [
+          '뉴스 URL 입력만으로 디자인·카피라이팅까지 자동 완성되는 카드뉴스 산출물 구현',
+          '데이터 수집→비주얼 제작→카피라이팅 전 과정 자동화로 수작업 시간 90% 이상 단축',
+          '자동화 시스템을 활용해 패션·뷰티 매거진 인스타그램 채널 직접 운영',
+        ],
+        stack: [
+          ['개발 언어', 'TypeScript (Next.js · React · Node.js)'],
+          ['프레임워크', 'Next.js 15 (App Router · SSR) · React 19 · SST · OpenNext'],
+          ['데이터베이스', 'DynamoDB'],
+          ['클라우드 인프라', 'AWS Lambda · CloudFront · S3 · Bedrock · IAM'],
+          ['AI', 'Anthropic Claude Opus 4.8 / Sonnet 4.6 (Bedrock) · Google Gemini TTS'],
+          ['렌더링', 'satori · resvg · sharp'],
+        ],
+        link: 'https://www.instagram.com/look.edits.mag/',
+      },
+      {
+        no: '04', title: 'AI NEXUS', kr: '기자용 올인원 AI 어시스턴트 (서울경제신문 X AWS)',
+        role: 'AWS 기반 비즈니스 로직 · 다중 AI 모델 통합·실시간 스트리밍', year: '2025',
+        period: '—', team: '4명',
+        tags: ['React', 'AWS Lambda', 'Serverless', 'Claude'],
+        award: 'Award',
+        summary: '현직 기자들의 뉴스 생산성 향상을 위한 올인원 AI 어시스턴트 플랫폼입니다. 뉴스 제목 생성·본문 교열 등 기자 맞춤형 챗봇으로, 현재 서울경제신문 내부 시스템으로 도입되어 실무에 활용 중입니다.',
+        metrics: [],
+        bullets: [
+          'AWS 기반 비즈니스 로직 구현',
+          '다중 AI 모델 통합 및 실시간 스트리밍 처리',
+          '뉴스 제목 생성·본문 교열 등 기자 맞춤형 챗봇 서비스 구현',
+        ],
+        achievements: [
+          '서울경제신문 내부 시스템으로 도입 — 기자 데스크 업무·기사 작성 보조에 활용 중',
+          '폭발적인 시스템 활용량 (High Engagement) — 누적 입력 토큰 1.1억 (110,216,844)',
+          'B2B 솔루션 확장 — 타 언론사·미디어 그룹 대상 구독형 AI 솔루션 판매 전략 수립·추진',
+        ],
+        stack: [
+          ['개발 환경', 'Git · AWS CLI · Serverless Framework'],
+          ['개발 언어', 'JavaScript · CSS · Python · Node.js · JSON'],
+          ['서버', 'AWS Lambda · CloudFront · S3'],
+          ['프레임워크', 'React · Vite · Tailwind CSS · Serverless Framework'],
+          ['Infrastructure', 'AWS · DynamoDB · AWS Cognito'],
+          ['IDE', 'Visual Studio Code'],
+          ['AI & Data', 'Anthropic Claude Opus 4.5 · Web Search Integration'],
+        ],
+        link: '',
+      },
+      {
+        no: '05', title: 'Hover AI', kr: '시각장애인을 위한 터치스크린 사용 도우미 (Computer Vision + TTS)',
+        role: '팀장 · 데이터 수집/증강 · YOLO11 · OpenCV', year: '2025',
+        period: '2025.07 ~ 2025.08 (2개월)', team: '5명 (팀장)',
+        tags: ['YOLO11', 'EasyOCR', 'PyTorch', 'OpenCV'],
+        imgCount: 5,
+        award: 'SKT FLY AI X SOVAC Challenger 프로젝트 부문 최우수상 · SK AI SUMMIT 2025 참가',
+        summary: '시각장애인의 가전제품 터치스크린 사용 불편을 해결하기 위한 보조 시스템입니다. 손가락 위치와 버튼 텍스트를 인식해 음성으로 안내하며, 5명 협업·팀장으로 기획부터 데이터·모델 파인튜닝까지 주도했습니다.',
+        metrics: [
+          { value: 91, suffix: '%', label: 'OCR 정확도 (19→91)' },
+          { value: 82, suffix: '%', label: 'Confidence (37→82)' },
+          { value: 134010, suffix: '장', label: '수집·증강 이미지' },
+        ],
+        bullets: [
+          '직접 유저 인터뷰로 사용자 페르소나 및 핵심 니즈(손가락 위치 인식) 구체화',
+          '가전제품 데이터 수집 및 증강',
+          'YOLO11 기반 손가락 탐지·추적 시스템 구현',
+          'OpenCV 기반 가전제품 조작 상태 인식 시스템 구현',
+        ],
+        sections: [
+          { title: '두 가지 기능', items: ['조작 모드 — 손가락 끝점 탐지(YOLO11) + 버튼 텍스트 추출(EasyOCR)을 매칭해 누르기 전 버튼 이름을 TTS로 안내', '보기 모드 — 패널 텍스트 추출 + OpenCV로 버튼 주변 LED 검출, 매칭해 현재 선택된 기능을 TTS로 안내'] },
+          { title: '모델 파인튜닝', items: ["YOLO11 — 'fingertip' 클래스를 추가해 손가락 끝 단위 탐지 (기존엔 손 전체를 person으로 인식)", 'EasyOCR — 가전 특화 데이터 13.4만 장 수집·증강으로 파인튜닝 → 정확도 19%→91%, Confidence 37%→82%'] },
+        ],
+        achievements: [
+          'SK AI SUMMIT 2025 부스에서 삼성·SK그룹 등 글로벌 VIP 대상 시연으로 시장성 검증',
+        ],
+        stack: [
+          ['개발 언어', 'Python'],
+          ['하드웨어', 'Google Colab (T4 GPU) · NVIDIA RTX 4090 GPU'],
+          ['모델 학습/관리', 'Google Colab · VS Code · Roboflow (YOLO 학습)'],
+          ['배포 플랫폼', 'Hugging Face Spaces'],
+          ['라이브러리', 'YOLO11 · PyTorch · OpenCV · Roboflow · Ultralytics · EasyOCR · TTS API'],
+        ],
+        link: 'https://huggingface.co/spaces/yugangee/Hover_AI',
+      },
+      {
+        no: '06', title: '축구 분석 중계 시스템', kr: 'Computer Vision + RAG 기반 해설 자막 자동 생성',
+        role: '프론트엔드 · RAG 자막 시스템 설계/구현 · YOLOv8 · 배포', year: '2024–25',
+        period: '2024.09~12, 2025.06~08 (7개월)', team: '4명',
+        tags: ['YOLOv8', 'DeepSORT', 'BM25', 'FAISS'],
+        imgCount: 4,
+        videoSlots: [1],
+        award: '교내 AI융합학부 IT 경진대회 최우수상',
+        summary: '컴퓨터 비전과 RAG를 결합한 축구 분석 중계 시스템입니다. 선수·공·심판을 탐지·추적하고, RAG로 중계진 수준의 자연스러운 해설 자막을 자동 생성합니다. 4명 협업.',
+        metrics: [],
+        bullets: [
+          '프론트엔드 인터페이스 구현',
+          'RAG 기반 자막 생성 시스템 설계·구현',
+          'YOLOv8 기반 객체 탐지 및 Hugging Face 배포',
+        ],
+        sections: [
+          { title: 'Computer Vision', items: ['객체 탐지 — YOLOv8(Ultralytics)로 선수·공·심판 클래스 단위 탐지', '객체 추적 — DeepSORT로 ID 지속성 유지, 프레임 간 연속 추적', '팀 구분 — K-Means 색상 군집화로 팀 자동 분류', '공 소유자 판별 — 공 중심과 선수 bbox 중심 간 유클리드 거리로 최근접 선수 판별'] },
+          { title: 'RAG 기반 자막 생성', items: ['국가대표 경기 해설 스크립트 확보·전처리 (중복/메타데이터 제거)', 'BM25(키워드) + FAISS(Sentence-BERT 의미검색) 하이브리드 검색', '두 결과를 가중치 α=0.6으로 결합해 Top-N 후보 확보 → OpenAI API로 자연스러운 해설 자막 생성'] },
+        ],
+        stack: [
+          ['개발 언어', 'Python · JavaScript (React)'],
+          ['프레임워크', 'FastAPI + Uvicorn (ASGI 서버)'],
+          ['버전 관리·협업', 'Git · GitHub (BallStalker)'],
+          ['모델 학습/관리', 'Google Colab · VS Code · Jupyter Notebook · Roboflow'],
+          ['배포 플랫폼', 'Hugging Face Spaces'],
+          ['라이브러리', 'YOLOv8 · OpenCV · DeepSORT · Sentence-BERT · BM25 · FAISS · Roboflow · Ultralytics · Pandas · Scikit-learn'],
+        ],
+        link: '',
+      },
+      {
+        no: '07', title: 'Fashion Jiok', kr: '사용자 스타일 기반 매칭 애플리케이션 (AI Agent + 스타일 분류)',
+        role: '백엔드 · AI (대화 추천 Agent + 분류 모델)', year: '2025',
+        period: '2025.09 ~ 2025.12 (4개월)', team: '3명',
+        tags: ['React Native', 'Express', 'MySQL', 'CLIP'],
+        imgCount: 5,
+        noImgBlocks: [1],
+        dualTopBlocks: [3],
+        narrowImgBlocks: [2],
+        summary: 'AI Agent 대화 추천과 스타일 분류 모델을 결합한 사용자 스타일 기반 매칭 애플리케이션입니다. 백엔드·AI를 담당했습니다.',
+        metrics: [
+          { value: 78, suffix: '%', label: '스타일 분류 정확도' },
+        ],
+        bullets: [
+          'Node.js 기반 백엔드 서버 구축 + MySQL DB 설계',
+          'Gemini API 기반 AI 대화 추천 기능 구현 (첫 멘트·맥락 기반 후속 답변)',
+          'EfficientNet/CLIP 기반 여성 스타일 분류 모델 개발 (정확도 78%)',
+        ],
+        sections: [
+          { title: 'AI Agent 대화 도우미', items: ['대화 시작 최적화 — 의도·상황에 맞는 몰입도 높은 첫 멘트 자동 생성', '맥락 기반 답변 추천 — 대화 이력 분석으로 최적 후속 답변 추천 Agent 로직', '사용자 이탈률 최소화 — 어색함 없는 대화 흐름 보장'] },
+          { title: 'CLIP 스타일 분류 (Acc 78%)', items: ['정답 예측 시 0.85+ 구간에 확신 집중 (오답은 저신뢰도로 필터링 가능)', '데이터 수 ∝ 성능: Lovely(F1 0.84) vs Unique(F1 0.31)'] },
+        ],
+        stack: [
+          ['개발 언어', 'JavaScript (Node.js · React Native) · Python'],
+          ['프레임워크', 'React Native (Expo) · Express.js · Sequelize'],
+          ['데이터베이스', 'MySQL'],
+          ['모델 학습', 'NVIDIA RTX 4090 GPU'],
+          ['버전 관리·협업', 'GitHub · Notion'],
+          ['AI', 'google-generativeai · EfficientNet · CLIP'],
+          ['라이브러리', 'PyTorch · YOLOv8'],
+        ],
+        link: '',
+      },
+    ];
+
+
+    /* ---------- 프로젝트 썸네일 그라데이션 (사진 도착 전 플레이스홀더) ---------- */
+    const THUMBS = [
+      'linear-gradient(135deg,#f3d9d2,#cdb4c4)',
+      'linear-gradient(135deg,#dfe3ec,#b9c2d0)',
+      'linear-gradient(135deg,#efe7d8,#cbb89a)',
+      'linear-gradient(135deg,#d9e4dd,#aabfb2)',
+      'linear-gradient(135deg,#e7d9e6,#b7a3c4)',
+      'linear-gradient(135deg,#e3ded6,#c2b39a)',
+      'linear-gradient(135deg,#f0dcd0,#d0a6a0)',
+    ];
+
+    /* ---------- 프로젝트별 이미지 파일명 (번호 대신 이름) ---------- */
+    const IMG = {
+      '01': 'sedaily',   // en.sedaily.com
+      '02': 'aikey',     // AI KEY
+      '03': 'cardnews',  // AI 카드뉴스 CMS
+      '04': 'nexus',     // AI NEXUS
+      '05': 'hover',     // Hover AI (이미지 없으면 그라데이션)
+      '06': 'football',  // 축구 분석 (이미지 없으면 그라데이션)
+      '07': 'fashion',   // Fashion Jiok
+    };
+    const imgPath = (no) => `assets/${IMG[no] || no}.jpg`;
+
+    /* ---------- WORK 시네마틱 교차 행 렌더 ---------- */
+    const workList = document.getElementById('work-list');
+    workList.innerHTML = PROJECTS.map((p, i) => {
+      const alt = i % 2 === 1; // 홀수 행 = 이미지 우측
+      return `
+      <article class="work-row reveal grid md:grid-cols-12 gap-8 md:gap-14 items-center" data-index="${i}" tabindex="0" role="button" aria-label="${p.title} 자세히 보기">
+        <div class="md:col-span-7 ${alt ? 'md:order-2' : ''}">
+          <div class="wr-frame aspect-[4/3] md:aspect-[16/11]">
+            ${p.award ? `<span class="wr-badge">★ Award</span>` : ''}
+            <div class="wr-thumb" style="background-image:${THUMBS[i % THUMBS.length]}"></div>
+            <div class="wr-imgwrap"><img class="wr-img" src="${imgPath(p.no)}" alt="${p.title}" loading="lazy" onerror="this.closest('.wr-imgwrap').remove()" /></div>
+          </div>
+        </div>
+        <div class="md:col-span-5 ${alt ? 'md:order-1 md:pr-6' : 'md:pl-6'}">
+          <div class="wr-num text-7xl md:text-[7rem] mb-3">${p.no}</div>
+          <h3 class="wr-title font-display font-300 text-4xl md:text-5xl tracking-[0.02em] text-ink">${p.title}</h3>
+          <p class="font-kr text-base text-ash mt-3">${p.kr}</p>
+          <p class="font-kr text-sm text-ink/70 leading-relaxed mt-5 line-clamp-3 max-w-md">${p.summary}</p>
+          <div class="label text-ash/80 mt-6 max-w-sm leading-relaxed">${p.role}</div>
+          <div class="flex items-center gap-6 mt-7">
+            <span class="wr-cta font-display text-sm tracking-[0.22em] uppercase text-ink">View Project <span class="wr-arrow">↗</span></span>
+            <span class="label text-ash">${p.year}</span>
+          </div>
+        </div>
+      </article>`;
+    }).join('');
+
+    /* ---------- SKILLS & PHILOSOPHY 카드 ---------- */
+    const SP = [
+      { cat: 'Cloud & Infra',       quote: 'I favor Lambda + CloudFront serverless architectures — they keep AI workloads cost-efficient without trading off scale.',                                                         tags: ['AWS Lambda', 'CloudFront', 'S3', 'DynamoDB', 'Cognito', 'Serverless Framework', 'EC2', 'Bedrock', 'API Gateway', 'SST', 'OpenNext'] },
+      { cat: 'AI / ML',             quote: 'I build production-grade CV and RAG pipelines — fine-tuning YOLO, wiring CLIP embeddings, and designing hybrid retrieval for accuracy.',                                          tags: ['YOLO11 / YOLOv8', 'DeepSORT', 'EasyOCR', 'CLIP', 'EfficientNet', 'FAISS', 'Hybrid RAG (BM25+FAISS)', 'Sentence-BERT', 'OpenCV', 'PyTorch'] },
+      { cat: 'LLM & Agents',        quote: 'I pick models by workload — routing per task, abstracted behind a single API surface so the underlying model is swappable.',                                                     tags: ['Claude', 'Gemini', 'LLM Routing', 'Prompt Engineering', 'Hybrid RAG', 'Streaming', 'Agent Workflow', 'Hugging Face'] },
+      { cat: 'Frontend',            quote: 'I use Next.js + Tailwind for fast, SEO-friendly ship; React Native when mobile parity matters.',                                                                                  tags: ['React', 'Next.js', 'React Native (Expo)', 'Vite', 'Tailwind CSS', 'TypeScript'] },
+      { cat: 'Backend',             quote: 'FastAPI when AI is in the hot path, Node/Express when integration breadth wins — never both just to look clever.',                                                                tags: ['Node.js', 'Express.js', 'FastAPI', 'Uvicorn', 'Sequelize', 'MySQL', 'DynamoDB', 'ElasticSearch', 'Redis'] },
+      { cat: 'Languages & Tools',   quote: 'Python for ML, TypeScript for product. Everything lives in Git with CI-ready structure.',                                                                                         tags: ['Python', 'TypeScript', 'JavaScript', 'Java', 'SQL', 'Git', 'GitHub', 'VS Code', 'Figma', 'Notion', 'Roboflow', 'satori / resvg'] },
+    ];
+    document.getElementById('sp-grid').innerHTML = SP.map(s => `
+      <div class="rounded-2xl border border-line p-7 flex flex-col gap-6" style="background:#fff;box-shadow:0 2px 20px rgba(10,10,10,0.04)">
+        <div class="label">${s.cat}</div>
+        <p class="font-display italic text-ink/70 text-xl md:text-2xl leading-snug flex-1">"${s.quote}"</p>
+        <div class="flex flex-wrap gap-2">${s.tags.map(t => `<span class="font-display text-[10px] tracking-[0.15em] uppercase px-3 py-1.5 border border-line rounded-sm text-ash">${t}</span>`).join('')}</div>
+      </div>`).join('');
+
+    /* ---------- Lenis 관성 스크롤 + ScrollTrigger 연동 ---------- */
+    const lenis = new Lenis({ duration: 0.7, smoothWheel: true });
+    lenis.scrollTo(0, { immediate: true });
+    lenis.on('scroll', ScrollTrigger.update);
+    gsap.ticker.add((time) => lenis.raf(time * 1000));
+    gsap.ticker.lagSmoothing(0);
+
+    /* ---------- 공용 reveal ---------- */
+    gsap.utils.toArray('.reveal').forEach((el) => {
+      gsap.to(el, {
+        opacity: 1, y: 0, duration: 1, ease: 'power3.out',
+        scrollTrigger: { trigger: el, start: 'top 88%', once: true },
+        delay: parseFloat(el.dataset.delay || 0),
+      });
+    });
+
+    /* ---------- 내비: 히어로 지나면 solid 전환 ---------- */
+    ScrollTrigger.create({
+      start: 'top -80', end: 99999,
+      onUpdate: (self) => {
+        document.getElementById('nav').classList.toggle('solid', self.scroll() > window.innerHeight * 0.85);
+      },
+    });
+
+    /* ---------- 스크롤 진행 바 ---------- */
+    const bar = document.getElementById('progress');
+    lenis.on('scroll', ({ scroll, limit }) => {
+      bar.style.width = (limit ? (scroll / limit) * 100 : 0) + '%';
+    });
+
+    /* ---------- 앵커 클릭 → Lenis 부드러운 스크롤 ---------- */
+    document.querySelectorAll('a[href^="#"]').forEach((a) => {
+      a.addEventListener('click', (e) => {
+        const id = a.getAttribute('href');
+        if (id.length > 1) { e.preventDefault(); lenis.scrollTo(id, { offset: 0 }); }
+      });
+    });
+
+    /* ---------- HERO: 스크롤 시 카피 페이드 ---------- */
+    gsap.to('#hero-copy', {
+      opacity: 0, y: -60, ease: 'none',
+      scrollTrigger: { trigger: '#hero', start: 'top top', end: 'bottom top', scrub: true },
+    });
+
+    /* ---------- WORK 상세 패널 ---------- */
+    const panel = document.getElementById('panel');
+    const panelBody = document.getElementById('panel-body');
+
+    function renderPanel(p) {
+      const liList = (arr) => arr.map((b) => `<li class="flex gap-3 text-ink/80 leading-relaxed"><span class="text-ash shrink-0">—</span><span>${b}</span></li>`).join('');
+      const metricsHtml = p.metrics.map((m) => `
+        <div class="rounded-lg p-5" style="background:rgba(253,220,220,0.35);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(253,200,200,0.5);box-shadow:0 2px 16px rgba(200,100,100,0.06),inset 0 1px 0 rgba(255,255,255,0.8)">
+          <div class="count font-display font-700 text-4xl md:text-5xl text-ink" data-value="${m.value}" data-suffix="${m.suffix}">0</div>
+          <div class="label mt-2">${m.label}</div>
+        </div>`).join('');
+      const awardHtml = p.award ? `<div class="inline-block label px-4 py-2 mt-4 rounded-sm" style="color:#B8860B;border:1px solid rgba(184,134,11,0.4);background:rgba(184,134,11,0.06);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);">★ ${p.award}</div>` : '';
+      const linkA = (label, url) => {
+        const strong = /aws|tech blog|award/i.test(label);
+        return strong
+          ? `<a href="${url}" target="_blank" rel="noopener" class="inline-flex items-center gap-2 text-sm tracking-[0.2em] uppercase font-display px-4 py-2 rounded-sm bg-ink text-snow hover:bg-ink/85 transition-colors">${label} ↗</a>`
+          : `<a href="${url}" target="_blank" rel="noopener" class="inline-flex items-center gap-2 text-sm tracking-[0.2em] uppercase font-display border-b border-ink pb-1 hover:opacity-60">${label} ↗</a>`;
+      };
+      const linkHtml = p.links ? p.links.map(l => linkA(l.label, l.url)).join('') : (p.link ? linkA('View Live', p.link) : '');
+      const meta = [['Period', p.period], ['Team', p.team], ['Role', p.role]].filter(([, v]) => v && v !== '—');
+      const metaHtml = meta.map(([k, v]) => `<div><div class="label mb-1">${k}</div><div class="font-kr text-ink text-sm leading-snug">${v}</div></div>`).join('');
+      const achievementsHtml = (p.achievements && p.achievements.length)
+        ? `<h3 class="label mb-5">Achievements</h3><ul class="space-y-3 mb-12">${liList(p.achievements)}</ul>` : '';
+      const sectionBlocks = (p.sections || []).map((s) => `<h3 class="label mb-5">${s.title}</h3><ul class="space-y-3 mb-12">${liList(s.items)}</ul>`);
+      const sectionsHtml = sectionBlocks.join('');
+      const tableHtml = p.table ? `
+        <div class="overflow-x-auto mb-12">
+          <table class="w-full text-sm border-collapse">
+            <thead><tr class="border-b border-ink">${p.table.headers.map((h, i) => `<th class="py-2 pr-4 label ${i === 0 ? 'text-left' : 'text-right'}">${h}</th>`).join('')}</tr></thead>
+            <tbody>${p.table.rows.map((r) => `<tr class="border-b border-line">${r.map((c, i) => `<td class="py-2 pr-4 ${i === 0 ? 'text-ink' : 'text-ash text-right'}">${c}</td>`).join('')}</tr>`).join('')}</tbody>
+          </table>
+        </div>` : '';
+      const stackHtml = Array.isArray(p.stack)
+        ? `<div class="divide-y divide-line">${p.stack.map(([c, i]) => `<div class="grid grid-cols-1 sm:grid-cols-4 gap-1 sm:gap-4 py-3"><div class="label sm:col-span-1">${c}</div><div class="font-kr text-sm text-ink/80 sm:col-span-3 leading-relaxed">${i}</div></div>`).join('')}</div>`
+        : `<p class="font-kr text-sm text-ash leading-relaxed">${p.stack}</p>`;
+      // 프로젝트별 이미지 3장 슬롯 — assets/<base>-1.jpg ~ -3.jpg 를 넣으면 표시되고,
+      // 없으면 그라데이션+번호 라벨 플레이스홀더가 남는다. (base = IMG[no] || no)
+      const gbase = IMG[p.no] || p.no;
+      const pIdx = PROJECTS.indexOf(p);
+      const slot = (n, maxW = 'w-full') => {
+        const vid = (p.videoSlots || []).includes(n);
+        return vid
+          ? `<figure class="relative bg-line/60 ${maxW}">
+              <video src="assets/${gbase}-${n}.mp4" class="w-full h-auto block" autoplay muted loop playsinline></video>
+            </figure>`
+          : `<figure class="relative bg-line/60 ${maxW}">
+              <img src="assets/${gbase}-${n}.jpg" alt="${p.title} 이미지 ${n}" loading="lazy" class="w-full h-auto block" onerror="this.closest('figure').remove()" />
+            </figure>`;
+      };
+      // 설명 블록 + 이미지를 좌·우 번갈아 한 장씩 짝지어 배치
+      const pairRow = (img, content, imgLeft, cols = 'md:grid-cols-2') => `
+          <div class="grid grid-cols-1 ${cols} gap-8 md:gap-12 items-center mb-16">
+            <div class="${imgLeft ? 'md:order-1' : 'md:order-2'}">${img}</div>
+            <div class="${imgLeft ? 'md:order-2' : 'md:order-1'}">${content}</div>
+          </div>`;
+      const summaryBlock = `<h3 class="label mb-5">Overview</h3><p class="font-kr text-base md:text-lg leading-relaxed text-ink/90">${p.summary}</p>`;
+      const roleBlock = `<h3 class="label mb-5">Role & Contribution</h3><ul class="space-y-3">${liList(p.bullets)}</ul>`;
+      // 설명 블록 목록 — 기본 3개(Overview·Role·Achievements+Sections), imgCount:4면 Achievements와 Sections를 분리해 4개
+      const want = p.imgCount || 3;
+      const contentBlocks = [summaryBlock];
+      if (want >= 4 && sectionBlocks.length >= 2) {
+        if (achievementsHtml) {
+          // hover: [summary, role, achievements, s[1](파인튜닝), s[0](두가지기능)]
+          contentBlocks.push(roleBlock, achievementsHtml, sectionBlocks[1], sectionBlocks[0]);
+        } else {
+          // football: [summary, role, s[0](CV), s[1](RAG)]
+          contentBlocks.push(roleBlock, sectionBlocks[0], sectionBlocks[1]);
+        }
+      } else if (p.no === '01') {
+        contentBlocks.push(roleBlock, achievementsHtml, sectionsHtml);
+      } else {
+        contentBlocks.push(roleBlock);
+        contentBlocks.push(`${achievementsHtml}${sectionsHtml}`.trim() || `<h3 class="label mb-5">Tech Stack</h3>${stackHtml}`);
+      }
+      const stackRow = (img, content) => `
+          <div class="mb-16">
+            <div class="max-w-xl mx-auto">${img}</div>
+            <div class="mt-8">${content}</div>
+          </div>`;
+      const noImg = p.noImgBlocks || [];
+      const dualTop = p.dualTopBlocks || [];
+      const narrowImg = p.narrowImgBlocks || [];
+      let imgIdx = 0;
+      const pairsHtml = contentBlocks
+        .map((c, i) => {
+          const isLast = i === contentBlocks.length - 1;
+          const isSedaily = p.no === '01';
+          if (noImg.includes(i)) {
+            return `<div class="mb-16 max-w-3xl">${c}</div>`;
+          }
+          if (dualTop.includes(i)) {
+            const a = ++imgIdx, b = ++imgIdx;
+            return `<div class="grid grid-cols-1 md:grid-cols-[2fr_3fr] gap-8 md:gap-12 items-center mb-16">
+              <div>${c}</div>
+              <div class="grid grid-cols-2 gap-3">${slot(a)}${slot(b)}</div>
+            </div>`;
+          }
+          imgIdx++;
+          if (isSedaily && i === 0) {
+            return `
+              <div class="mb-10 max-w-3xl">${c}</div>
+              <div class="mb-16">
+                <div class="flex items-center gap-4 mb-6">
+                  <span class="label text-ash">2025.12</span>
+                  <span class="h-px flex-1 bg-line"></span>
+                  <span class="label text-ink">Now</span>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 items-stretch">
+                  <figure class="relative bg-line/60 h-full">
+                    <div class="absolute top-3 left-3 z-10 px-3 py-1.5 text-xs uppercase tracking-[0.22em] text-ink" style="background:rgba(255,255,255,0.92);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid rgba(0,0,0,0.06)">2025.12 · Before</div>
+                    <img src="assets/sedaily-2025-12.png" alt="2025년 12월 초기 en.sedaily.com" loading="lazy" class="w-full h-full object-cover object-top block" />
+                  </figure>
+                  <figure class="relative bg-line/60 h-full">
+                    <div class="absolute top-3 left-3 z-10 px-3 py-1.5 text-xs uppercase tracking-[0.22em] text-ink" style="background:rgba(255,255,255,0.92);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid rgba(0,0,0,0.06)">Now · After</div>
+                    <img src="assets/sedaily-now.png" alt="현재 en.sedaily.com" loading="lazy" class="w-full h-full object-cover object-top block" />
+                  </figure>
+                </div>
+              </div>`;
+          }
+          if (isSedaily && isLast && p.imgCount >= 4) return stackRow(slot(imgIdx), c);
+          const imgLeft = i % 2 === 0;
+          const cols = narrowImg.includes(i)
+            ? (imgLeft ? 'md:grid-cols-[2fr_3fr]' : 'md:grid-cols-[3fr_2fr]')
+            : 'md:grid-cols-2';
+          return pairRow(slot(imgIdx), c, imgLeft, cols);
+        })
+        .join('');
+      return `
+        <div class="max-w-5xl mx-auto">
+          <div class="label mb-4">${p.no} / ${p.year}</div>
+          <h2 class="font-display font-300 text-4xl md:text-6xl tracking-[0.04em] text-ink">${p.title}</h2>
+          <p class="font-kr text-lg text-ash mt-3">${p.kr}</p>
+          ${awardHtml}
+          <div class="mt-6 flex flex-wrap gap-6">${linkHtml}</div>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-12 border-t border-line pt-6">${metaHtml}</div>
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16">${metricsHtml}</div>
+          <!-- 설명 블록 + 이미지 좌·우 교차 (assets/<base>-1~N.jpg, N=imgCount||3) -->
+          ${pairsHtml}
+          ${tableHtml}
+          <h3 class="label mb-4">Tech Stack</h3>
+          ${stackHtml}
+        </div>`;
+    }
+
+    let currentPanelIdx = 0;
+
+    const panelNavBtns = [document.getElementById('panel-prev'), document.getElementById('panel-next')];
+    const showNavBtns = (show) => panelNavBtns.forEach(b => b.classList.toggle('hidden', !show) || b.classList.toggle('flex', show));
+
+    function openPanel(i) {
+      currentPanelIdx = ((i % PROJECTS.length) + PROJECTS.length) % PROJECTS.length;
+      panelBody.innerHTML = renderPanel(PROJECTS[currentPanelIdx]);
+      panel.classList.remove('invisible');
+      panel.setAttribute('aria-hidden', 'false');
+      lenis.stop();
+      gsap.to(panel, { y: '0%', duration: 0.7, ease: 'power3.out' });
+      panel.scrollTop = 0;
+      showNavBtns(true);
+      panelBody.querySelectorAll('.count').forEach((el) => {
+        const val = parseFloat(el.dataset.value);
+        const suffix = el.dataset.suffix || '';
+        const isInt = Number.isInteger(val);
+        gsap.fromTo(el, { innerText: 0 }, {
+          innerText: val, duration: 1.4, ease: 'power2.out', delay: 0.3,
+          snap: { innerText: isInt ? 1 : 0.1 },
+          onUpdate: function () {
+            const n = parseFloat(el.innerText);
+            el.innerText = (isInt ? Math.round(n).toLocaleString() : n.toFixed(1)) + suffix;
+          },
+        });
+      });
+    }
+
+    function closePanel() {
+      showNavBtns(false);
+      gsap.to(panel, { y: '100%', duration: 0.5, ease: 'power3.in', onComplete: () => {
+        panel.classList.add('invisible');
+        panel.setAttribute('aria-hidden', 'true');
+        panelBody.innerHTML = '';
+        lenis.start();
+      }});
+    }
+
+    workList.querySelectorAll('.work-row').forEach((row) => {
+      const open = () => openPanel(parseInt(row.dataset.index, 10));
+      row.addEventListener('click', open);
+      row.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); } });
+    });
+    document.getElementById('panel-close').addEventListener('click', closePanel);
+    document.getElementById('panel-prev').addEventListener('click', () => openPanel(currentPanelIdx - 1));
+    document.getElementById('panel-next').addEventListener('click', () => openPanel(currentPanelIdx + 1));
+
+    // 키보드: Esc 닫기, ←→ 이전/다음 프로젝트
+    document.addEventListener('keydown', (e) => {
+      if (panel.getAttribute('aria-hidden') !== 'false') return;
+      if (e.key === 'Escape') closePanel();
+      if (e.key === 'ArrowRight') openPanel(currentPanelIdx + 1);
+      if (e.key === 'ArrowLeft')  openPanel(currentPanelIdx - 1);
+    });
+
+    // 스와이프: 좌→다음, 우→이전
+    let touchStartX = 0, touchStartY = 0;
+    panel.addEventListener('touchstart', (e) => {
+      touchStartX = e.touches[0].clientX;
+      touchStartY = e.touches[0].clientY;
+    }, { passive: true });
+    panel.addEventListener('touchend', (e) => {
+      const dx = e.changedTouches[0].clientX - touchStartX;
+      const dy = e.changedTouches[0].clientY - touchStartY;
+      if (Math.abs(dx) > Math.abs(dy) * 1.5 && Math.abs(dx) > 50) {
+        openPanel(dx < 0 ? currentPanelIdx + 1 : currentPanelIdx - 1);
+      }
+    }, { passive: true });
+
+    /* ---------- 커스텀 커서 + WORK 이미지 프리뷰 (마우스 환경만) ---------- */
+    const fine = window.matchMedia('(pointer:fine)').matches;
+    if (fine) {
+      document.body.classList.add('cursor-on');
+      const cursor = document.getElementById('cursor');
+      gsap.set(cursor, { xPercent: -50, yPercent: -50 });
+      const cx = gsap.quickTo(cursor, 'x', { duration: 0.16, ease: 'power3' });
+      const cy = gsap.quickTo(cursor, 'y', { duration: 0.16, ease: 'power3' });
+
+      window.addEventListener('mousemove', (e) => { cx(e.clientX); cy(e.clientY); });
+
+      document.querySelectorAll('a, button, .work-row').forEach((el) => {
+        el.addEventListener('mouseenter', () => cursor.classList.add('ring'));
+        el.addEventListener('mouseleave', () => cursor.classList.remove('ring'));
+      });
+    }
+
+    /* ---------- INTRO 라인 마스크 리빌 — 스크롤 scrub ---------- */
+    (() => {
+      const lines = gsap.utils.toArray('#intro h2 .ln');
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: '#intro h2',
+          start: 'top 80%',
+          end: 'bottom 55%',
+          scrub: 1,
+        },
+      });
+      lines.forEach((ln, i) => {
+        tl.fromTo(ln, { yPercent: 105, opacity: 0 }, { yPercent: 0, opacity: 1, duration: 1, ease: 'power3.out' }, i * 0.28);
+      });
+    })();
+
+    /* ---------- 거대 배경 타이포 패럴랙스 ---------- */
+    gsap.utils.toArray('[data-ghost]').forEach((g) => {
+      gsap.fromTo(g, { xPercent: -6 }, {
+        xPercent: 6, ease: 'none',
+        scrollTrigger: { trigger: g.closest('section'), start: 'top bottom', end: 'bottom top', scrub: true },
+      });
+    });
+
+    /* ---------- 이미지 패럴랙스 (프로필 등) ---------- */
+    gsap.utils.toArray('[data-pll]').forEach((el) => {
+      gsap.fromTo(el, { yPercent: -8 }, {
+        yPercent: 8, ease: 'none',
+        scrollTrigger: { trigger: el.closest('section'), start: 'top bottom', end: 'bottom top', scrub: true },
+      });
+    });
+
+    /* ---------- WORK 행 이미지 패럴랙스 (행별 개별) ---------- */
+    gsap.utils.toArray('#work-list .wr-imgwrap').forEach((wrap) => {
+      gsap.fromTo(wrap, { yPercent: -4 }, {
+        yPercent: 4, ease: 'none',
+        scrollTrigger: { trigger: wrap.closest('.work-row'), start: 'top bottom', end: 'bottom top', scrub: true },
+      });
+    });
+
+    /* ---------- Skills & Philosophy 카드 스태거 ---------- */
+    gsap.from('#sp-grid > div', {
+      opacity: 0, y: 32, duration: 0.8, stagger: 0.12, ease: 'power3.out',
+      scrollTrigger: { trigger: '#sp-grid', start: 'top 85%', once: true },
+    });
+
+    /* ---------- YUGYEONG 스크램블 ---------- */
+    (function () {
+      const el = document.getElementById('hero-scramble');
+      const FINAL = 'YUGYEONG';
+      const POOL  = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+      el.innerHTML = FINAL.split('').map((c) =>
+        `<span class="inline-block" data-c="${c}" style="opacity:0">${POOL[Math.floor(Math.random()*26)]}</span>`
+      ).join('');
+      const spans = el.querySelectorAll('span');
+      function scrambleOne(span, delay) {
+        setTimeout(() => {
+          span.style.opacity = '1';
+          const target = span.dataset.c;
+          let n = 0, max = 7 + Math.floor(Math.random() * 6);
+          const iv = setInterval(() => {
+            if (n++ >= max) { clearInterval(iv); span.textContent = target; }
+            else span.textContent = POOL[Math.floor(Math.random() * 26)];
+          }, 45);
+        }, delay);
+      }
+      // 로더 끝난 후 실행 (~1.6s)
+      setTimeout(() => spans.forEach((s, i) => scrambleOne(s, i * 75)), 1650);
+    })();
+
+    /* ---------- 로드 인트로 ---------- */
+    const tl = gsap.timeline();
+    tl.to('#loader-mark', { opacity: 1, duration: 0.6, ease: 'power2.out' })
+      .to('#loader-mark', { opacity: 0, duration: 0.4, delay: 0.5 })
+      .to('#loader', { yPercent: -100, duration: 0.7, ease: 'power3.inOut', onComplete: () => {
+        document.getElementById('loader').style.display = 'none';
+        ScrollTrigger.refresh();
+      }});
+  })();
+  </script>
+</body>
+</html>
