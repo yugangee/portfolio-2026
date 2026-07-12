@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>YUGYEONG HEO · AI · Full-Stack Developer</title>
-<meta name="description" content="허유경 — AI · 풀스택 개발자 포트폴리오" />
+<title>YUGYEONG HEO · Platform Engineer</title>
+<meta name="description" content="허유경 — Platform Engineer · AWS 서버리스 · MLOps 포트폴리오" />
 
 <!-- Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
 <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" />
 
 <!-- Tailwind Play CDN -->
@@ -19,14 +19,17 @@
     theme: {
       extend: {
         colors: {
-          paper: '#F7F7F6',   // 중립 화이트 기본 배경 (핑크 제거)
+          paper: '#F5F6F8',   // 쿨 뉴트럴 화이트 (기술 톤)
           snow:  '#FFFFFF',   // 순백 교차 섹션
           ink:   '#0A0A0A',   // 잉크 블랙 텍스트
           ash:   '#6B6B6B',   // 보조 회색
-          line:  '#E2DED7',   // 헤어라인
+          line:  '#E3E5E9',   // 쿨 헤어라인
+          accent:'#1D5FE0',   // 테크 블루 (액센트)
+          navy:  '#122745',   // 딥 네이비
         },
         fontFamily: {
-          display: ['"Cormorant Garamond"', 'Pretendard', 'sans-serif'],
+          display: ['"IBM Plex Sans"', 'Pretendard', 'sans-serif'],
+          mono: ['"IBM Plex Mono"', 'ui-monospace', 'SFMono-Regular', 'monospace'],
           kr: ['Pretendard', 'sans-serif'],
         },
         fontWeight: { 300: '300', 400: '400', 500: '500', 600: '600', 700: '700', 900: '900' },
@@ -42,7 +45,7 @@
 
 <style>
   html, body { margin: 0; padding: 0; }
-  body { background: #F7F7F6; color: #0A0A0A; font-family: 'Pretendard', sans-serif; -webkit-font-smoothing: antialiased; }
+  body { background: #F5F6F8; color: #0A0A0A; font-family: 'Pretendard', sans-serif; -webkit-font-smoothing: antialiased; }
 
   /* Lenis 권장 스타일 (네이티브 smooth-scroll 충돌 제거) */
   html.lenis, html.lenis body { height: auto; }
@@ -55,7 +58,7 @@
   .label { font-size: 10px; letter-spacing: 0.4em; text-transform: uppercase; color: #6B6B6B; }
 
   /* 영상 위: 흰 글씨 / 스크롤 후: 검정 글씨 + 흰 배경 */
-  #nav .nav-link { color: #FFFFFF; transition: color .4s ease; }
+  #nav .nav-link { color: #0A0A0A; transition: color .4s ease; }
   #nav.solid { background: rgba(255,255,255,0.6); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 1px solid rgba(226,222,215,0.5); box-shadow: 0 2px 20px rgba(10,10,10,0.05); }
   #nav.solid .nav-link { color: #0A0A0A; }
 
@@ -81,7 +84,7 @@
                       transition: transform 1.2s cubic-bezier(.2,.7,.2,1); will-change: transform; }
   .work-row:hover .wr-img { transform: scale(1.05); }
   /* 거대 인덱스 번호 */
-  .work-row .wr-num { font-family:'Cormorant Garamond',serif; font-weight:300; line-height:.8; color:#0A0A0A;
+  .work-row .wr-num { font-family:'IBM Plex Mono',ui-monospace,monospace; font-weight:500; line-height:.8; color:#0A0A0A;
                       opacity:.16; transition: opacity .5s, transform .6s cubic-bezier(.2,.7,.2,1); }
   .work-row:hover .wr-num { opacity:.32; transform: translateX(6px); }
   .work-row .wr-title { transition: transform .55s cubic-bezier(.2,.7,.2,1); }
@@ -95,7 +98,7 @@
   .work-row:hover .wr-arrow { transform: translate(4px,-4px) rotate(45deg); }
   /* 수상 배지 */
   .work-row .wr-badge { position:absolute; top:16px; left:16px; z-index:3; background:#0A0A0A; color:#fff;
-                        font-family:'Cormorant Garamond',serif; font-size:11px; letter-spacing:.18em; text-transform:uppercase;
+                        font-family:'IBM Plex Mono',ui-monospace,monospace; font-size:10px; letter-spacing:.18em; text-transform:uppercase;
                         padding:6px 10px; }
 
   /* ---------- 글래스모피즘 ---------- */
@@ -131,7 +134,7 @@
   .ln { display:inline-block; will-change: transform; }
 
   /* ---------- 거대 배경 타이포 ---------- */
-  .ghost { font-family:'Cormorant Garamond',serif; font-weight:600; line-height:.78; color:transparent;
+  .ghost { font-family:'IBM Plex Sans',sans-serif; font-weight:700; line-height:.78; color:transparent;
            -webkit-text-stroke:1px rgba(10,10,10,.07); pointer-events:none; user-select:none; white-space:nowrap; will-change: transform; }
 </style>
 </head>
@@ -139,7 +142,7 @@
 
   <!-- 로드 인트로 -->
   <div id="loader" class="fixed inset-0 z-[100] bg-snow flex items-center justify-center">
-    <span class="font-display font-700 text-2xl tracking-[0.1em] text-ink opacity-0" id="loader-mark">HEO YUGYEONG</span>
+    <span class="text-2xl tracking-[0.1em] text-ink opacity-0" id="loader-mark" style="font-family:'Cormorant Garamond',serif;font-weight:500">HEO YUGYEONG</span>
   </div>
 
   <!-- 커스텀 커서 -->
@@ -151,7 +154,7 @@
   <!-- 고정 상단 내비 -->
   <header id="nav" class="fixed top-0 inset-x-0 z-50 transition-all duration-500">
     <div class="flex items-center justify-between px-6 md:px-12 py-5">
-      <a href="#hero" class="nav-link font-display font-600 tracking-[0.12em] text-xl">HEO YUGYEONG</a>
+      <a href="#hero" class="nav-link tracking-[0.12em] text-xl" style="font-family:'Cormorant Garamond',serif;font-weight:600">HEO YUGYEONG</a>
       <nav class="flex items-center gap-6 md:gap-10 text-xs tracking-[0.25em] uppercase font-display">
         <a href="#about" class="nav-link hover:opacity-60 transition-opacity">About</a>
         <a href="#work" class="nav-link hover:opacity-60 transition-opacity">Work</a>
@@ -164,28 +167,50 @@
   <main id="main">
 
     <!-- ① HERO -->
-    <section id="hero" class="relative h-[85svh] w-full overflow-hidden bg-snow flex items-center justify-center">
-      <div id="hero-copy" class="relative w-full max-w-6xl mx-auto px-8 md:px-12 flex flex-col md:flex-row items-center justify-between gap-10 md:gap-0">
+    <section id="hero" class="relative min-h-[88svh] w-full overflow-hidden bg-snow flex items-center">
+      <!-- 기술 그리드 배경 -->
+      <div class="pointer-events-none absolute inset-0 opacity-50"
+           style="background-image:linear-gradient(#E3E5E9 1px,transparent 1px),linear-gradient(90deg,#E3E5E9 1px,transparent 1px);background-size:60px 60px;-webkit-mask-image:radial-gradient(ellipse 75% 60% at 45% 42%,#000 25%,transparent 78%);mask-image:radial-gradient(ellipse 75% 60% at 45% 42%,#000 25%,transparent 78%)"></div>
 
-        <!-- 텍스트 (왼쪽) -->
-        <div class="md:flex-1 text-center md:text-left">
-          <div class="label mb-6 tracking-[0.45em]" style="color:rgba(10,10,10,0.35)">AI · Full-Stack Developer</div>
-          <h1 class="font-display font-300 text-ink leading-[0.88] tracking-[0.05em]"
-              style="font-size:clamp(3rem,9vw,8.5rem)">
+      <div id="hero-copy" class="relative w-full max-w-6xl mx-auto px-8 md:px-12 grid md:grid-cols-12 gap-10 md:gap-8 items-center pt-24 md:pt-0">
+
+        <!-- 왼쪽: 포지셔닝 · 이름 · 스택 · AWS 배지 · 다이어그램 -->
+        <div class="md:col-span-8">
+          <div class="inline-flex items-center gap-2.5 mb-6">
+            <span class="relative flex h-2 w-2"><span class="absolute inline-flex h-full w-full rounded-full bg-accent opacity-60 animate-ping"></span><span class="relative inline-flex h-2 w-2 rounded-full bg-accent"></span></span>
+            <span class="font-mono text-[11px] md:text-xs tracking-[0.28em] uppercase text-accent">Platform Engineer</span>
+          </div>
+
+          <h1 class="text-ink leading-[0.9] tracking-[0.02em]"
+              style="font-family:'Cormorant Garamond',serif; font-weight:400; font-size:clamp(3rem,9vw,7.8rem)">
             HEO<br /><span id="hero-scramble">YUGYEONG</span>
           </h1>
+
+          <div class="font-mono text-[11px] md:text-sm text-ash mt-6 tracking-wide">
+            AWS Serverless<span class="text-accent"> · </span>Lambda<span class="text-accent"> · </span>DynamoDB<span class="text-accent"> · </span>Data Pipeline<span class="text-accent"> · </span>MLOps
+          </div>
+
+          <!-- AWS Tech Blog 배지 -->
+          <a href="https://aws.amazon.com/ko/blogs/tech/ai-news-service-using-amazon-bedrock-prompt-engineering-case/" target="_blank" rel="noopener"
+             class="group inline-flex items-center gap-3 mt-8 pl-4 pr-5 py-3 border border-accent/40 bg-accent/5 hover:bg-accent/10 transition-colors">
+            <span class="font-mono text-[9px] md:text-[10px] tracking-[0.18em] uppercase text-accent border-r border-accent/30 pr-3">Featured on</span>
+            <span class="font-display font-700 text-sm md:text-base text-ink">AWS 공식 Tech Blog</span>
+            <span class="text-accent transition-transform group-hover:translate-x-1">↗</span>
+          </a>
+
         </div>
 
-        <!-- 사진 (오른쪽) -->
-        <div class="flex-shrink-0 rounded-full overflow-hidden"
-             style="width:clamp(180px,32vmin,360px);height:clamp(180px,32vmin,360px)">
-          <img src="assets/profile.jpg" alt="허유경" class="w-full h-full object-cover object-top" />
+        <!-- 오른쪽: 프로필 (사각·담백) -->
+        <div class="md:col-span-4 flex md:justify-end order-first md:order-none">
+          <div class="w-28 aspect-[3/4] md:w-full md:max-w-[210px] overflow-hidden border border-line bg-line/40">
+            <img src="assets/profile.jpg" alt="허유경 · Platform Engineer" class="w-full h-full object-cover object-top" style="filter:grayscale(12%)" />
+          </div>
         </div>
       </div>
 
-      <div class="absolute bottom-8 inset-x-0 flex flex-col items-center text-ink/30 text-[10px] tracking-[0.4em] uppercase">
+      <div class="absolute bottom-6 inset-x-0 flex flex-col items-center text-ink/30 text-[9px] tracking-[0.4em] uppercase font-mono">
         <span class="mb-2">Scroll</span>
-        <span class="block w-px h-10 bg-ink/20 animate-pulse"></span>
+        <span class="block w-px h-8 bg-ink/20"></span>
       </div>
     </section>
 
@@ -201,11 +226,10 @@
         </div>
 
         <!-- 오버사이즈 선언문 -->
-        <h2 class="font-display font-300 text-ink leading-[0.92] tracking-[0.01em] text-[12vw] md:text-[8.2vw]">
-          <span class="lnwrap"><span class="ln">I build</span></span>
-          <span class="lnwrap"><span class="ln"><em class="font-400 italic">intelligence</em></span></span>
-          <span class="lnwrap"><span class="ln">into the things</span></span>
-          <span class="lnwrap"><span class="ln">people <em class="font-400 italic">touch.</em></span></span>
+        <h2 class="font-display font-500 text-ink leading-[0.96] tracking-[-0.015em] text-[11vw] md:text-[7.2vw]">
+          <span class="lnwrap"><span class="ln">I build the</span></span>
+          <span class="lnwrap"><span class="ln"><em class="not-italic text-accent font-600">platforms</em></span></span>
+          <span class="lnwrap"><span class="ln"><em class="not-italic font-600">AI</em> runs on.</span></span>
         </h2>
 
         <!-- 보조 문단 (우측 정렬, 비대칭) -->
@@ -213,9 +237,9 @@
           <div class="max-w-md reveal">
             <div class="w-12 h-px bg-ink mb-6"></div>
             <p class="font-kr text-base md:text-lg leading-relaxed text-ink/75">
-              새로운 기술을 탐구하는 것에 그치지 않고, 비즈니스의 성장과 운영 효율을 극대화하는 프로덕트로 구현해 냅니다. 데이터 파이프라인부터 서버리스 인프라, 사용자 화면까지 AI 서비스를 엔드투엔드(End-to-End)로 직접 구축해 세상에 내놓을 때 가장 큰 몰입감을 느낍니다.
+              AWS 서버리스 인프라 위에서 데이터 파이프라인과 AI 서비스를 엔드투엔드(End-to-End)로 설계·구축·운영합니다. Lambda·DynamoDB부터 데이터 수집·모니터링까지, 확장 가능하고 안정적인 플랫폼으로 AI를 프로덕션에 올리는 일에 가장 큰 몰입감을 느낍니다.
             </p>
-            <div class="label mt-6">Heo Yugyeong / AI · Full-Stack Developer</div>
+            <div class="label mt-6">Heo Yugyeong / Platform Engineer</div>
           </div>
         </div>
       </div>
@@ -227,7 +251,7 @@
         <!-- 프로필 사진 (HEIC→JPEG 변환) -->
         <div class="md:col-span-4 reveal">
           <div class="aspect-[3/4] w-full overflow-hidden bg-line/60">
-            <img data-pll src="assets/profile.jpg" alt="허유경 · AI · Full-Stack Developer" class="w-full h-[115%] object-cover" />
+            <img data-pll src="assets/profile.jpg" alt="허유경 · Platform Engineer" class="w-full h-[115%] object-cover" />
           </div>
           <div class="mt-6 font-display font-700 text-2xl text-ink">허유경</div>
           <div class="label mt-1">Heo Yugyeong · 2001.07.17</div>
@@ -301,8 +325,8 @@
     <!-- 테크 키워드 마퀴 -->
     <div class="marquee bg-snow border-y border-line py-6">
       <div class="marquee-track font-display font-300 text-2xl md:text-4xl text-ink/30 tracking-tight">
-        <span>AI Engineering</span><span>·</span><span>Full-Stack</span><span>·</span><span>Computer Vision</span><span>·</span><span>RAG</span><span>·</span><span>AWS Serverless</span><span>·</span><span>LLM Pipelines</span><span>·</span>
-        <span>AI Engineering</span><span>·</span><span>Full-Stack</span><span>·</span><span>Computer Vision</span><span>·</span><span>RAG</span><span>·</span><span>AWS Serverless</span><span>·</span><span>LLM Pipelines</span><span>·</span>
+        <span>AWS Serverless</span><span>·</span><span>Cloud Infrastructure</span><span>·</span><span>Data Pipeline</span><span>·</span><span>MLOps</span><span>·</span><span>Monitoring</span><span>·</span>
+        <span>AWS Serverless</span><span>·</span><span>Cloud Infrastructure</span><span>·</span><span>Data Pipeline</span><span>·</span><span>MLOps</span><span>·</span><span>Monitoring</span><span>·</span>
       </div>
     </div>
 
@@ -324,7 +348,7 @@
 
         <footer class="mt-32 pt-8 border-t border-line flex flex-col md:flex-row justify-between gap-3 label">
           <span>© 2026 Heo Yugyeong</span>
-          <span>AI · Full-Stack Developer Portfolio</span>
+          <span>Platform Engineer Portfolio</span>
         </footer>
       </div>
     </section>
