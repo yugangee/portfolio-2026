@@ -136,6 +136,10 @@
   /* ---------- 거대 배경 타이포 ---------- */
   .ghost { font-family:'IBM Plex Sans',sans-serif; font-weight:700; line-height:.78; color:transparent;
            -webkit-text-stroke:1px rgba(10,10,10,.07); pointer-events:none; user-select:none; white-space:nowrap; will-change: transform; }
+.cta-live{background:#1D5FE0;color:#fff;box-shadow:0 6px 18px rgba(29,95,224,.28);transition:background .2s,box-shadow .2s,transform .2s}
+.cta-live:hover{background:#1749b0;box-shadow:0 10px 26px rgba(29,95,224,.38);transform:translateY(-1px)}
+.cta-live span{transition:transform .2s}
+.cta-live:hover span{transform:translate(2px,-2px)}
 </style>
 </head>
 <body class="font-kr">
@@ -433,7 +437,10 @@
           ['AI', 'Anthropic Claude Opus 4.8 / Sonnet 4.6 (Bedrock) · Google Gemini TTS'],
           ['렌더링', 'satori · resvg · sharp'],
         ],
-        link: '',
+        link: 'https://d5p63uohqc773.cloudfront.net/generate?source=sedaily&design=won-money',
+        links: [
+          { label: 'Try the CMS', url: 'https://d5p63uohqc773.cloudfront.net/generate?source=sedaily&design=won-money', emph: true },
+        ],
       },{
         no: '02', img: 'sedaily', title: 'en.sedaily.com', kr: '글로벌 뉴스를 위한 AI 기반 AEO·SEO 최적화 플랫폼',
         role: '풀스택 개발 · AI 번역 시스템 · AEO/SEO 최적화', year: '2025',
@@ -480,7 +487,7 @@
         ],
         link: 'https://en.sedaily.com',
         links: [
-          { label: 'View Live', url: 'https://en.sedaily.com' },
+          { label: 'View Live', url: 'https://en.sedaily.com', emph: true },
           { label: 'AWS Tech Blog', url: 'https://aws.amazon.com/ko/blogs/tech/ai-news-service-using-amazon-bedrock-prompt-engineering-case/' },
         ],
       },{
@@ -591,7 +598,7 @@
         ],
         link: 'https://en.sedaily.com/key',
       },{
-        no: '06', img: 'nexus', title: 'AI NEXUS', kr: '기자용 올인원 AI 어시스턴트 (서울경제신문 X AWS)',
+        no: '06', img: 'nexus', title: 'AI NOVA', kr: '기자용 올인원 AI 어시스턴트 (서울경제신문 X AWS)',
         role: 'AWS 기반 비즈니스 로직 · 다중 AI 모델 통합·실시간 스트리밍', year: '2025',
         period: '—', team: '4명',
         tags: ['React', 'AWS Lambda', 'Serverless', 'Claude'],
@@ -767,13 +774,14 @@
           <div class="label mt-2" style="letter-spacing:0.14em;line-height:1.45">${m.label}</div>
         </div>`).join('');
       const awardHtml = p.award ? `<div class="inline-block label px-4 py-2 mt-4 rounded-sm" style="color:#B8860B;border:1px solid rgba(184,134,11,0.4);background:rgba(184,134,11,0.06);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);">★ ${p.award}</div>` : '';
-      const linkA = (label, url) => {
+      const linkA = (label, url, emph) => {
         const strong = /aws|tech blog|award/i.test(label);
+        if (emph) return `<a href="${url}" target="_blank" rel="noopener" class="cta-live inline-flex items-center gap-3 text-sm md:text-base tracking-[0.18em] uppercase font-display font-600 px-7 py-4 rounded-sm">${label} <span aria-hidden="true">↗</span></a>`;
         return strong
           ? `<a href="${url}" target="_blank" rel="noopener" class="inline-flex items-center gap-2 text-sm tracking-[0.2em] uppercase font-display px-4 py-2 rounded-sm bg-ink text-snow hover:bg-ink/85 transition-colors">${label} ↗</a>`
           : `<a href="${url}" target="_blank" rel="noopener" class="inline-flex items-center gap-2 text-sm tracking-[0.2em] uppercase font-display border-b border-ink pb-1 hover:opacity-60">${label} ↗</a>`;
       };
-      const linkHtml = p.links ? p.links.map(l => linkA(l.label, l.url)).join('') : (p.link ? linkA('View Live', p.link) : '');
+      const linkHtml = p.links ? p.links.map(l => linkA(l.label, l.url, l.emph)).join('') : (p.link ? linkA('View Live', p.link) : '');
       const meta = [['Period', p.period], ['Team', p.team], ['Role', p.role]].filter(([, v]) => v && v !== '—');
       const metaHtml = meta.map(([k, v]) => `<div><div class="label mb-1">${k}</div><div class="font-kr text-ink text-sm leading-snug">${v}</div></div>`).join('');
       const achievementsHtml = (p.achievements && p.achievements.length)
