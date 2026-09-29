@@ -248,7 +248,7 @@
             <img data-pll src="assets/profile.jpg" alt="허유경 · AI Engineer" class="w-full h-[115%] object-cover" />
           </div>
           <div class="mt-6 font-display font-700 text-2xl text-ink">허유경</div>
-          <div class="label mt-1">Heo Yugyeong · 2001.07.17</div>
+          <div class="label mt-1">Heo Yugyeong</div>
         </div>
 
         <div class="md:col-span-8 space-y-12">
@@ -369,7 +369,7 @@
           <a href="https://github.com/yugangee" target="_blank" rel="noopener" class="hover:opacity-60">GitHub ↗</a>
           <a href="https://huggingface.co/yugangee" target="_blank" rel="noopener" class="hover:opacity-60">HuggingFace ↗</a>
           <a href="https://blog.naver.com/dbruddl56" target="_blank" rel="noopener" class="hover:opacity-60">Blog ↗</a>
-          <span class="text-ash">Tel. 010-7337-5827</span>
+         
         </div>
 
         <footer class="mt-32 pt-8 border-t border-line flex flex-col md:flex-row justify-between gap-3 label">
@@ -411,7 +411,7 @@
         summary: '시각장애인의 가전제품 터치스크린 사용 불편을 해결하기 위한 보조 시스템입니다. 손가락 위치와 버튼 텍스트를 인식해 음성으로 안내하며, 5명 협업·팀장으로 기획부터 데이터·모델 파인튜닝까지 주도했습니다.',
         metrics: [
           { value: 91, suffix: '%', label: 'OCR 정확도' },
-          { value: 82, suffix: '%', label: 'Confidence' },
+          { value: 82, suffix: '%', label: '인식 Confidence (37%→)' },
           { value: 13.4, suffix: '만 장', label: '수집·증강 이미지' },
         ],
         bullets: [
@@ -476,15 +476,15 @@
       },{
         no: '03', img: 'sedaily', title: 'en.sedaily.com', kr: '글로벌 뉴스를 위한 AI 기반 AEO·SEO 최적화 플랫폼',
         role: '풀스택 개발 · AI 번역 시스템 · AEO/SEO 최적화', year: '2025',
-        period: '2025.12 ~ (6개월)', team: '2명',
+        period: '2025.12 ~ 2026.09 (10개월)', team: '2인 팀',
         tags: ['Next.js', 'FastAPI', 'AWS Lambda', 'Claude'],
         award: 'WAN-IFRA (세계신문협회) Gold Award — Best AI-Driven News Product, Format, or Strategy',
         imgCount: 4,
-        summary: 'LLM 검색 엔진에서 직접 추천되는 구조를 구축한 글로벌 뉴스 미디어 최적화 플랫폼입니다. 키워드 기반 분류 시스템 도입 직후 활성 사용자·페이지뷰가 급증했고, 북미·동남아 등 전 세계 10개국+ 유입을 확인했습니다.',
+        summary: '국문 기사를 원천으로 사람이 검수하지 않아도 도는 번역·발행 파이프라인입니다. 하루 400건을 10분 주기로 수집·번역·발행하며, 219개국에서 유입됩니다. 검증할 것은 비용이 아니라 사람이 검수하지 않는 번역의 신뢰성이었습니다.',
         metrics: [
-          { value: 6400, suffix: '만', label: '총 노출수' },
-          { value: 0.5, suffix: '%', label: '평균 CTR' },
-          { value: 6.9, suffix: '', label: '평균 게재순위' },
+          { value: 400, suffix: '건/일', label: '무인 번역·발행' },
+          { value: 219, suffix: '개국', label: '유입 국가' },
+          { value: 10, suffix: '분', label: '수집·발행 주기' },
         ],
         bullets: [
           'Next.js·FastAPI·React 기반 반응형 웹 플랫폼 풀스택 개발',
@@ -492,9 +492,11 @@
           'AEO·SEO 최적화 로직으로 LLM 검색엔진 상위 노출 구조 설계',
           'AWS Lambda 서버리스 기반 확장성 있는 글로벌 서비스 구현',
           'GA4·AdSense·Search Console·Sheets API·DynamoDB·Notion 연동 데이터·리포팅 자동화 파이프라인 구축',
+          '회사명 오역을 막는 용어집 RAG 설계·구현 — DART 영문명 검수 사전 293개 정확매칭, 용어 실현율 92.5%→96.9%',
+          '프롬프트 캐싱·블록 단위 재번역 재설계로 기사당 출력 토큰 50% 절감',
         ],
         achievements: [
-          '구글 서치콘솔 기준 6개월간 누적 노출 6,400만 · 평균 CTR 0.5% · 평균 게재순위 6.9위 달성',
+          '국문 기사를 원천으로 사람 검수 없이 하루 400건을 번역·발행하는 파이프라인을 10분 주기로 운영',
           'Stock Market 등 특정 섹션 고조회수로 키워드 분류 정확도 입증',
           'AdSense 광고 최적화 및 수익화 기반 마련',
         ],
@@ -523,14 +525,14 @@
       },{
         no: '04', img: 'aikey', title: 'AI KEY', kr: '한국 상장사·재계 그룹·섹터를 AI가 분석·추적하는 영문 프리미엄 서비스',
         role: '풀스택 (프론트·백엔드·AI 파이프라인·데이터·인프라)', year: '2026',
-        period: '2026.04 ~ (진행 중)', team: '단독/협업',
+        period: '2026.04 ~ 2026.09 (6개월)', team: '풀스택 담당',
         tags: ['Next.js 14', 'AWS Lambda', 'DynamoDB', 'ElasticSearch'],
-        summary: '102개 대기업집단·85개+ 상장사의 지배구조·재무·공시 데이터를 시각화하는 글로벌 투자자용 인텔리전스 플랫폼입니다. 한국 기업·그룹·산업 섹터를 AI가 분석·추적합니다.',
+        summary: '공정위 지정 대기업집단 102개와 회사 3,562곳(상장 396)의 지배구조·재무·공시 데이터를 한 데이터 모델로 모아 영문 화면 하나에서 읽히게 만든 인텔리전스 플랫폼입니다. 값보다 언제 기준의 값인지를 먼저 설계했습니다.',
         metrics: [
           { value: 102, suffix: '개', label: '대기업집단' },
-          { value: 85, suffix: '+', label: '상장사 분석' },
+          { value: 3562, suffix: '개', label: '회사 행 (상장 396)' },
           { value: 99.9, suffix: '%', label: '데이터 가용성' },
-          { value: 14, suffix: '개', label: '분석 페이지' },
+          { value: 24, suffix: '개', label: 'KRX 표준 업종' },
         ],
         bullets: [
           'Next.js 14 기반 회사·그룹·섹터·시장 등 14개 분석 페이지 구축',
@@ -543,7 +545,7 @@
         achievements: [
           'DART·KFTC 등 공식 출처 데이터 연동으로 출처 투명성 확보',
           '99.9% 데이터 가용성 확보 — 추출 시점과 공시일을 구분하는 데이터 정책 설계',
-          '102개 집단·85개+ 계열사 전체 지형을 보여주는 투자자용 인텔리전스 플랫폼 완성',
+          '102개 집단·3,562개 회사 행(상장 396·비상장 3,166은 비공개) 전체 지형을 영문 화면에서 제공',
         ],
         stack: [
           ['개발 언어', 'TypeScript (Next.js · React) · Python (AWS Lambda)'],
@@ -558,26 +560,26 @@
       },{
         no: '05', img: 'cardnews', title: 'AI 카드뉴스 생성', kr: '영문 기사 URL을 한글 인스타 카드뉴스로 자동 변환하는 풀스택 CMS',
         role: '풀스택 (프론트·백엔드·AI 프롬프트·인프라) · 단독 개발', year: '2026',
-        period: '2026.05 ~ (진행 중)', team: '1명 (단독)',
+        period: '2026.05 ~ 2026.09 (5개월)', team: '1명 (단독)',
         tags: ['Next.js 15', 'Bedrock', 'satori', 'resvg'],
         summary: '영문 기사 URL을 한글 인스타그램 카드뉴스로 자동 변환하는 풀스택 CMS입니다. 데이터 수집부터 비주얼 제작·카피라이팅까지 전 과정을 자동화했습니다.',
         metrics: [
-          { value: 90, suffix: '%↓', label: '수작업 시간 단축' },
-          { value: 8, suffix: '종', label: '디자인 템플릿' },
+          { value: 15, suffix: '초', label: '카드 1건 생성 (기존 30분)' },
+          { value: 11, suffix: '종 × 7모드', label: '템플릿 레지스트리' },
           { value: 1080, suffix: 'px', label: '카드 렌더 해상도' },
         ],
         bullets: [
           'Next.js 15 기반 단일 페이지 CMS 구축 및 AWS Lambda 서버리스 배포',
           'AWS Bedrock Claude 기반 기사 분석·번역·카드 콘텐츠 자동 생성 파이프라인 구현',
           'satori·resvg 기반 1080×1350 인스타 카드 PNG 렌더링 엔진 직접 개발',
-          '뷰티·머니·유튜브 썸네일 등 8종 디자인 템플릿 시스템 + 편집 UI 구현',
+          '템플릿 11종 × 콘텐츠 모드 7종 레지스트리 설계 — 디자인은 코드에 고정하고 사람은 사진·내용만 교체',
           'en.sedaily 데이터 연동 키워드 검색 패널 — 검색 후 클릭 한 번으로 카드 자동 생성',
           '단일 사진 + 인스타 캡션 자동 생성 모드, Gemini TTS 보이스오버 기능 구현',
         ],
         achievements: [
           '뉴스 URL 입력만으로 디자인·카피라이팅까지 자동 완성되는 카드뉴스 산출물 구현',
-          '데이터 수집→비주얼 제작→카피라이팅 전 과정 자동화로 수작업 시간 90% 이상 단축',
-          '자동화 시스템을 활용해 패션·뷰티 매거진 인스타그램 채널 직접 운영',
+          '데이터 수집→비주얼 제작→카피라이팅 전 과정 자동화 — 카드 1건 제작이 30분에서 15초로 (생성 화면 평균 15~30초)',
+          '서울경제 공식 인스타그램 카드뉴스와 유튜브 썸네일 제작에 실제 사용 중',
         ],
         stack: [
           ['개발 언어', 'TypeScript (Next.js · React · Node.js)'],
@@ -587,13 +589,12 @@
           ['AI', 'Anthropic Claude Opus 4.8 / Sonnet 4.6 (Bedrock) · Google Gemini TTS'],
           ['렌더링', 'satori · resvg · sharp'],
         ],
-        link: 'https://www.instagram.com/look.edits.mag/',
+        link: '',
       },{
         no: '06', img: 'nexus', title: 'AI NEXUS', kr: '기자용 올인원 AI 어시스턴트 (서울경제신문 X AWS)',
         role: 'AWS 기반 비즈니스 로직 · 다중 AI 모델 통합·실시간 스트리밍', year: '2025',
         period: '—', team: '4명',
         tags: ['React', 'AWS Lambda', 'Serverless', 'Claude'],
-        award: 'Award',
         summary: '현직 기자들의 뉴스 생산성 향상을 위한 올인원 AI 어시스턴트 플랫폼입니다. 뉴스 제목 생성·본문 교열 등 기자 맞춤형 챗봇으로, 현재 서울경제신문 내부 시스템으로 도입되어 실무에 활용 중입니다.',
         metrics: [],
         bullets: [
