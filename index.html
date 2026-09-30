@@ -140,6 +140,9 @@
 .cta-live:hover{background:#1749b0;box-shadow:0 10px 26px rgba(29,95,224,.38);transform:translateY(-1px)}
 .cta-live span{transition:transform .2s}
 .cta-live:hover span{transform:translate(2px,-2px)}
+.ch-links{display:flex;flex-wrap:wrap;gap:.5rem .9rem;margin-top:.5rem}
+.ch-links a{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.02em;color:#1D5FE0;border-bottom:1px solid rgba(29,95,224,.35);padding-bottom:1px;transition:border-color .2s,opacity .2s}
+.ch-links a:hover{border-color:#1D5FE0;opacity:.75}
 </style>
 </head>
 <body class="font-kr">
@@ -427,7 +430,7 @@
         achievements: [
           '뉴스 URL 입력만으로 디자인·카피라이팅까지 자동 완성되는 카드뉴스 산출물 구현',
           '데이터 수집→비주얼 제작→카피라이팅 전 과정 자동화 — 카드 1건 제작이 30분에서 15초로 (생성 화면 평균 15~30초)',
-          '서울경제 공식 인스타그램 카드뉴스와 유튜브 썸네일 제작에 실제 사용 중',
+          '서울경제 공식 인스타그램 카드뉴스와 유튜브 썸네일 제작에 실제 사용 중 <span class="ch-links"><a href="https://www.instagram.com/seoul_economic/" target="_blank" rel="noopener">@seoul_economic ↗</a><a href="https://www.instagram.com/awsomemoney_official/" target="_blank" rel="noopener">@awsomemoney_official ↗</a><a href="https://www.instagram.com/co.ju.boo/" target="_blank" rel="noopener">@co.ju.boo ↗</a><a href="https://www.youtube.com/@%EC%84%9C%EC%9A%B8%EA%B2%BD%EC%A0%9C%EC%8B%A0%EB%AC%B8/videos" target="_blank" rel="noopener">YouTube 썸네일 ↗</a></span>',
         ],
         stack: [
           ['개발 언어', 'TypeScript (Next.js · React · Node.js)'],
